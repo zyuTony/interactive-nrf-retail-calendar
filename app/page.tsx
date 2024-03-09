@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <div>
         <h1>Welcome to Tony Experience</h1>
-        <p>Here is a fucking cube</p>
+        <p>Here is an fucking cube</p>
         <Cube />
       </div>
     </>
