@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 
-const Cubes = () => {
+export default function Cube() {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -62,4 +62,4 @@ const Cubes = () => {
       className="w-full h-screen flex justify-center items-center"
     ></div>
   );
-};
+}
