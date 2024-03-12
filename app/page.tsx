@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Cube from "../components/cube";
-import UsernameForm from "../components/usernameForm";
+import UsernameForm from "../components/usernameform";
 
 export default function Home() {
   return (
