@@ -1,14 +1,12 @@
-import Image from "next/image";
-import Cube from "../components/cube";
-import GetYear from "../components/getyear";
-import UsernameForm from "../components/usernameform";
+import GetWeekday from "./components/getweekday";
+import UsernameForm from "./components/cookietracking/usernameform";
 
 export default function Home() {
   return (
     <div>
       <h1>weekday finder</h1>
       <UsernameForm />
-      <GetYear />
+      <GetWeekday />
     </div>
   );
 }
