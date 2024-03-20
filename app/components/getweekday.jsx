@@ -1,28 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import CopyToClipboardButton from "./quickcopybutton";
+
+import ResultCard from "./resultcard";
 
 export default function GetWeekday() {
-  const [answer, setAnswer] = useState(null);
   const [anchorDate, setAnchorDate] = useState("");
   const [error, setError] = useState("");
 
+  const [weekday, setWeekday] = useState(null);
+  const [fisyrnbr, setFisyrnbr] = useState(null);
+  const [fisqtrnbr, setFisqtrnbr] = useState(null);
+  const [fismonbr, setFismonbr] = useState(null);
+  const [fiswknbr, setFiswknbr] = useState(null);
+
   const calcYear = async (e) => {
     e.preventDefault();
-    console.log(anchorDate);
+
     try {
-      const answer = await fetch("api/calc_date", {
+      const rep = await fetch("api/calc_date", {
         method: "POST",
         body: JSON.stringify({ anchorDate }),
       });
 
-      if (!answer.ok) {
+      if (!rep.ok) {
         throw new Error("HTTP error");
       }
 
-      const data = await answer.json();
-      setAnswer(data);
+      const data = await rep.json();
+
+      setWeekday(data.dy_of_wk_desc);
+      setFisyrnbr(data.fis_yr_nbr);
+      setFisqtrnbr(data.fis_qtr_nbr);
+      setFismonbr(data.fis_mo_nbr);
+      setFiswknbr(data.fis_wk_nbr);
     } catch (err) {
       setError("fail to fetch");
       console.error(err);
@@ -48,19 +59,16 @@ export default function GetWeekday() {
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
         >
-          Get answer!
+          Get date!
         </button>
       </form>
-
-      {answer && (
-        <div className="group relative flex items-center space-x-2">
-          <p className="inline-block text-xl">{answer}</p>
-          <div className="hidden group-hover:flex">
-            <CopyToClipboardButton textToCopy={answer} />
-          </div>
-        </div>
-      )}
-
+      <div className="flex flex-col space-y-4">
+        {weekday && <ResultCard label="Weekday" value={weekday} />}
+        {fisyrnbr && <ResultCard label="Fiscal Year" value={fisyrnbr} />}
+        {fisqtrnbr && <ResultCard label="Fiscal Quarter" value={fisqtrnbr} />}
+        {fismonbr && <ResultCard label="Fiscal Month" value={fismonbr} />}
+        {fiswknbr && <ResultCard label="Fiscal Week" value={fiswknbr} />}
+      </div>
       {error && (
         <div className="mt-4">
           <p className="text-red-500">{error}</p>
