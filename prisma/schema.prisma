@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model retail_dates {
+  cal_dt_hash_key     Int       @id
+  dt_key              Int?
+  cal_dt              DateTime? @db.Date
+  cal_yr              String?   @db.VarChar(100)
+  cal_mo              String?   @db.VarChar(100)
+  cal_dy              String?   @db.VarChar(100)
+  fis_yr_nbr          Int?
+  fis_qtr_nbr         Int?
+  fis_mo_nbr          Int?
+  fis_wk_nbr          Int?
+  fiscal_day          Int?
+  seq_in_dy_rsln_nbr  Int?
+  seq_in_wk_rsln_nbr  Int?
+  seq_in_mo_rsln_nbr  Int?
+  seq_in_qtr_rsln_nbr Int?
+  seq_in_yr_rsln_nbr  Int?
+  dy_of_wk_desc_short String?   @db.VarChar(100)
+  dy_of_wk_desc       String?   @db.VarChar(100)
+  fis_wk_desc         String?   @db.VarChar(100)
+  fis_mo_desc         String?   @db.VarChar(100)
+  fis_qtr_desc        String?   @db.VarChar(100)
+  fis_half_yr_desc    String?   @db.VarChar(100)
+  fis_yr_desc         String?   @db.VarChar(100)
+  cur_yr_ind          Int?
+  cur_qtr_ind         Int?
+  cur_mo_ind          Int?
+  cur_wk_ind          Int?
+  cur_dy_ind          Int?
+  lst_yr_ind          Int?
+  lst_qtr_ind         Int?
+  lst_mo_ind          Int?
+  lst_wk_ind          Int?
+  prv_dy_ind          Int?
+  yr_strt_dt          String?   @db.VarChar(100)
+  yr_end_dt           String?   @db.VarChar(100)
+  lp_yr_ind           Int?
+  qtr_strt_dt         String?   @db.VarChar(100)
+  qtr_end_dt          String?   @db.VarChar(100)
+  mo_strt_dt          String?   @db.VarChar(100)
+  mo_end_dt           String?   @db.VarChar(100)
+  wk_strt_dt          String?   @db.VarChar(100)
+  wk_end_dt           String?   @db.VarChar(100)
+  elps_wk_ind         Int?
+  roll_actl_6mo_ind   Int?
+  roll_actl_12mo_ind  Int?
+  cal_mo_name         String?   @db.VarChar(100)
+  fis_cal_dy_offset   Int?
+  fis_cal_wk_offset   Int?
+  fis_cal_mo_offset   Int?
+  fis_cal_qr_offset   Int?
+  fis_cal_yr_offset   Int?
+}
