@@ -6,7 +6,7 @@ export async function POST(req) {
   console.log(`the date returned is ${anchorDate}`);
   const anchorDateObject = new Date(anchorDate);
 
-  const result = await prisma.retail_dates.findFirst({
+  const result = await prisma.calendar_data.findFirst({
     where: {
       cal_dt: anchorDateObject,
     },
@@ -25,13 +25,5 @@ export async function POST(req) {
     },
   });
 
-  // console.log(result);
-  // const values = result.dy_of_wk_desc;
-  // console.log(values);
-
-  const response = {
-    // result1:
-    // result2:
-  };
   return NextResponse.json(result);
 }
