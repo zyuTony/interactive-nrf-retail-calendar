@@ -37,8 +37,6 @@ const MonthBlock = ({
     10
   );
 
-  // const [hoveredDate, setHoverDate] = useState(null);
-
   const numRow = fiveWeekMonth.includes(monthIndicator) ? 5 : 4;
   const dayLength = numRow * 7;
 
@@ -50,19 +48,6 @@ const MonthBlock = ({
           (highlightDay) => highlightDay.valueOf() === currentDate.valueOf()
         ) || false
     );
-    // const days =
-    //   highlightDays
-    //     ?.filter((value) => value !== null)
-    //     .map((value) => (value.getMonth() === 0 ? 12 : value.getDate())) || [];
-    // const months =
-    //   highlightDays
-    //     ?.filter((value) => value !== null)
-    //     .map((value) => (value.getMonth() === 0 ? 12 : value.getMonth())) || [];
-    // const years =
-    //   highlightDays
-    //     ?.filter((value) => value !== null)
-    //     .map((value) => (value.getMonth() === 0 ? 12 : value.getFullYear())) ||
-    //   [];
   };
 
   return (
@@ -250,8 +235,14 @@ const CalendarBlock = ({ compYears }) => {
   );
 
   const LYCompDay = hoverDate ? hoverDate.addDays(oneYearDiff) : null;
-  const highlightDays = [LYCompDay];
-  console.log(LYCompDay ? LYCompDay.getDate() : "asd");
+  // const highlightDays = [LYCompDay];
+
+  const highlightDays = Array.from({ length: compYears - 1 }).map(
+    (_, index) => {
+      return hoverDate ? hoverDate.addDays(oneYearDiff * (index + 1)) : null;
+    }
+  );
+
   return (
     <div className="flex flex-row justify-end gap-5 pr-10">
       {yearIndicator.map((value, index) => (
@@ -268,10 +259,24 @@ const CalendarBlock = ({ compYears }) => {
   );
 };
 
-export default function home() {
+export default function Home() {
+  const [compYears, setCompYears] = useState(2); // Starting with 2 as the initial value
+
+  const handleCompYearsChange = (event) => {
+    // Ensure the input is converted to a number and update the state
+    setCompYears(Number(event.target.value));
+  };
+
   return (
-    <div className="flex flex-row justify-center gap-5 pr-10">
-      <CalendarBlock compYears={2} />
+    <div className="flex flex-col justify-center items-center gap-5 pr-10">
+      <input
+        type="number"
+        value={compYears}
+        onChange={handleCompYearsChange}
+        className="mb-5 p-2 border border-gray-300 rounded"
+        min="1" // Assuming you want at least 1 year as a minimum
+      />
+      <CalendarBlock compYears={compYears} />
     </div>
   );
 }
