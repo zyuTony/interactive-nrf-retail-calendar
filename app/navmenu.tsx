@@ -13,13 +13,24 @@ export default function NavMenu() {
 
             <ul className="flex items-center space-x-4 ml-10">
               <li>
-                <Link href="/" className="text-gray-600 hover:text-gray-900">
+                <Link
+                  href="/interactive"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Interactive
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dayinfo"
+                  className="text-gray-600 hover:text-gray-900"
+                >
                   Day Info
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/presets"
+                  href="/compday"
                   className="text-gray-600 hover:text-gray-900"
                 >
                   Comp Day
@@ -33,12 +44,11 @@ export default function NavMenu() {
                   Month Duration
                 </Link>
               </li>
-              <li>
-                <UsernameForm />
-              </li>
             </ul>
           </div>
-          {/* Additional elements like search or buttons can be added here */}
+          <div className="flex items-center">
+            <UsernameForm />
+          </div>
         </div>
       </div>
     </nav>

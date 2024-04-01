@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import ResultCard from "./resultcard";
+import ResultCard from "../ui/resultcard";
 
 export default function GetPreset() {
   const [anchorDate, setAnchorDate] = useState("");
@@ -42,8 +42,6 @@ export default function GetPreset() {
           </label>
           <input
             type="date"
-            id="date"
-            name="date"
             className="border-2 border-gray-200 rounded-lg p-2 leading-tight focus:outline-none focus:border-blue-500 transition duration-150 ease-in-out"
             value={anchorDate}
             onChange={(e) => setAnchorDate(e.target.value)}

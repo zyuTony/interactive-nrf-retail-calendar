@@ -1,5 +1,6 @@
 "use client";
-import GetMonth from "../components/getmonth";
+import GetMonth from "../components/duration/getmonth";
+import GetQuarter from "../components/duration/getquarter";
 import { useState } from "react";
 
 export default function Home() {
@@ -7,11 +8,11 @@ export default function Home() {
 
   return (
     <div>
-      <p className="mb-4">Presets</p>
       <div className="flex justify-center gap-2 mb-4">
+        <p className="mb-4">Duration</p>
         <button
           className={`px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out ${
-            activeModule === "singleDay"
+            activeModule === "Month"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-800"
           }`}
@@ -19,23 +20,24 @@ export default function Home() {
             setActiveModule("Month");
           }}
         >
-          Single Day
+          Month
         </button>
         <button
           className={`px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out ${
-            activeModule === "duration"
+            activeModule === "Quarter"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-800"
           }`}
           onClick={() => {
-            setActiveModule("duration");
+            setActiveModule("Quarter");
           }}
         >
-          Duration
+          Quarter
         </button>
       </div>
 
       {activeModule === "Month" && <GetMonth />}
+      {activeModule === "Quarter" && <GetQuarter />}
     </div>
   );
 }

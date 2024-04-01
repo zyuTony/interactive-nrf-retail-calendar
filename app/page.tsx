@@ -1,10 +1,9 @@
-import GetWeekday from "./components/getweekday";
+import GetWeekday from "./components/dayinfo/getweekday";
 
 export default function Home() {
   return (
     <div>
       <p>Home</p>
-      <GetWeekday />
     </div>
   );
 }

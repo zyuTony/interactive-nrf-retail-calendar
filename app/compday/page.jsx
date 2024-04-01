@@ -1,6 +1,6 @@
 "use client";
-import GetPreset from "../components/getpresets";
-import GetPresetDuration from "../components/getpresetsduration";
+import GetPreset from "../components/getpresets/getpresets";
+import GetPresetDuration from "../components/getpresets/getpresetsduration";
 import { useState } from "react";
 
 export default function Home() {

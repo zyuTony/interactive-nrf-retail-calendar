@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import ResultCard from "./resultcard";
+import ResultCard from "../ui/resultcard";
 
 export default function GetWeekday() {
   const [anchorDate, setAnchorDate] = useState("");
