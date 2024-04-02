@@ -7,7 +7,10 @@ export default function NavMenu() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           <div className="flex items-center">
-            <Link href="/" className="text-red-600 hover:text-red-900">
+            <Link
+              href="/interactive"
+              className="text-red-600 hover:text-red-900"
+            >
               454 Calendar
             </Link>
 
