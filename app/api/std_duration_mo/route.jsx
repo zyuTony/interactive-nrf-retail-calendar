@@ -29,8 +29,12 @@ export async function POST(req) {
     _max: {
       fis_yr_nbr: true,
       fis_mo_nbr: true,
+      cal_yr: true,
+      cal_mo: true,
       mo_strt_dt: true,
       mo_end_dt: true,
+      qtr_strt_dt: true,
+      qtr_end_dt: true,
     },
     orderBy: [
       { _max: { fis_yr_nbr: "desc" } },
@@ -41,8 +45,12 @@ export async function POST(req) {
   const distinctFormattedDates = distinctDates.map((date) => ({
     fis_yr_nbr: date._max.fis_yr_nbr,
     fis_mo_nbr: date._max.fis_mo_nbr,
+    cal_yr: date._max.cal_yr,
+    cal_mo: date._max.cal_mo,
     mo_strt_dt: date._max.mo_strt_dt.toISOString().substring(0, 10),
     mo_end_dt: date._max.mo_end_dt.toISOString().substring(0, 10),
+    qtr_strt_dt: date._max.qtr_strt_dt.toISOString().substring(0, 10),
+    qtr_end_dt: date._max.qtr_end_dt.toISOString().substring(0, 10),
   }));
 
   return NextResponse.json(distinctFormattedDates);
