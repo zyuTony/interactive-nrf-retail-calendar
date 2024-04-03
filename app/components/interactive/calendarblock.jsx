@@ -136,9 +136,9 @@ export function YearBlock({
     <div className="flex flex-col gap-2 items-center">
       <div className="text-lg font-medium">{yearIndicator}</div>
 
-      {months.map((value, _) => {
+      {months.map((value, index) => {
         return (
-          <div>
+          <div key={index}>
             <MonthBlock
               yearIndicator={yearIndicator}
               hoverDate={hoverDate}
