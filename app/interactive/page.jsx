@@ -4,6 +4,52 @@ import { useState, useRef } from "react";
 
 import CalendarBlock from "../components/interactive/calendarblock";
 
+const WeekIndicator = () => {
+  return (
+    <div className="grid grid-cols-1 pt-14 pl-1">
+      {Array.from({ length: 65 }).map((_, index) => {
+        if (
+          index === 4 ||
+          index === 10 ||
+          index === 15 ||
+          index === 20 ||
+          index === 26 ||
+          index === 31 ||
+          index === 36 ||
+          index === 42 ||
+          index === 47 ||
+          index === 52 ||
+          index === 58 ||
+          index === 63
+        ) {
+          return <div key={`break-${index}`} className="h-7"></div>;
+        }
+        let displayNumber = index + 1;
+        if (index > 4) displayNumber -= 1;
+        if (index > 10) displayNumber -= 1;
+        if (index > 15) displayNumber -= 1;
+        if (index > 20) displayNumber -= 1;
+        if (index > 26) displayNumber -= 1;
+        if (index > 31) displayNumber -= 1;
+        if (index > 36) displayNumber -= 1;
+        if (index > 42) displayNumber -= 1;
+        if (index > 47) displayNumber -= 1;
+        if (index > 52) displayNumber -= 1;
+        if (index > 58) displayNumber -= 1;
+        if (index > 63) displayNumber -= 1;
+        return (
+          <div
+            key={index}
+            className="flex items-center justify-center border border-transparent text-sm font-semibold"
+          >
+            {displayNumber}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export default function Home() {
   const [lastYearShown, setLastYearShown] = useState(3);
   const [yearsShown, setYearsShown] = useState(3);
@@ -19,13 +65,19 @@ export default function Home() {
 
   const format = (dateObjects) => {
     return (dateObjects || [])
-      ?.filter((value) => value != null)
-      .map(
-        (value, _) =>
-          ` "${value.getFullYear()}-${(value.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${value.getDate().toString().padStart(2, "0")}"`
-      )
+      ?.filter((value) => value.date != null)
+      .map((value, _) => {
+        const dateObject = value.date;
+        const dateName = value.type;
+        return ` ${dateName}="${dateObject.getFullYear()}-${(
+          dateObject.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${dateObject
+          .getDate()
+          .toString()
+          .padStart(2, "0")}"`;
+      })
       .join("\n");
   };
   const handleInputChange = (e) => {
@@ -86,19 +138,22 @@ export default function Home() {
             </button>
             {/* <span className="flex items-center px-5">Years Displayed</span> */}
           </div>
-          <div className="relative w-full overflow-auto">
+          <div className="flex flex-row w-full overflow-auto h-1/2 pb-10">
             <CalendarBlock
+              className="overflow-auto pb-10"
               lastYearShown={lastYearShown}
               yearsShown={yearsShown}
               inputLists={inputLists}
               fixedHighlightsDays={fixedHighlightsDays}
               setFixedHighlightsDays={setFixedHighlightsDays}
             />
+
+            <WeekIndicator />
           </div>
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row h-16 items-center">
           <div>
             <input
               type="checkbox"
@@ -170,14 +225,35 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div class="outputWindow">
+        <AutoSizeTextDisplay text={format(fixedHighlightsDays)} />
+
+        {/* <div class="outputWindow h-96">
           <textarea
             value={format(fixedHighlightsDays)}
-            className="h-48 resize border border-indigo-500 rounded-lg font-mono"
+            className="w-full h-full resize-none border border-gray-500 rounded-lg font-mono"
             style={{ fontFamily: "monospace", fontSize: "16px" }}
           />
-        </div>
+        </div> */}
       </div>
+    </div>
+  );
+}
+
+function AutoSizeTextDisplay({ text }) {
+  return (
+    <div
+      className="border border-gray-500 rounded-lg font-mono p-2 overflow-auto"
+      style={{
+        fontFamily: "monospace",
+        fontSize: "16px",
+        textAlign: "right",
+        maxHeight: "100vh", // Maximum height of the viewport
+        maxWidth: "50%", // Use a percentage to make it responsive to the container
+      }}
+    >
+      <span style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}>
+        {text}
+      </span>
     </div>
   );
 }

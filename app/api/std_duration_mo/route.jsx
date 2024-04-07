@@ -28,6 +28,7 @@ export async function POST(req) {
     by: ["fis_yr_nbr", "fis_mo_nbr", "mo_strt_dt", "mo_end_dt"],
     _max: {
       fis_yr_nbr: true,
+      fis_qtr_nbr: true,
       fis_mo_nbr: true,
       cal_yr: true,
       cal_mo: true,
@@ -44,6 +45,7 @@ export async function POST(req) {
 
   const distinctFormattedDates = distinctDates.map((date) => ({
     fis_yr_nbr: date._max.fis_yr_nbr,
+    fis_qtr_nbr: date._max.fis_qtr_nbr,
     fis_mo_nbr: date._max.fis_mo_nbr,
     cal_yr: date._max.cal_yr,
     cal_mo: date._max.cal_mo,
