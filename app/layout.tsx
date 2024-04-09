@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavMenu from "./navmenu";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <NavMenu />
         {/* Adjust the mt-x class as needed to ensure enough space for the NavMenu */}
         <main className="flex flex-col mt-20">{children}</main>
+        <Toaster position="bottom-right" reverseOrder={false} />
       </body>
     </html>
   );
