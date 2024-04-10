@@ -1,4 +1,4 @@
-import { startDatebyMonth } from "./begindateinfo";
+import { startDatebyMonth, startOrigDatebyMonth } from "./begindateinfo";
 import { useState } from "react";
 import { MonthBlock } from "./monthblock";
 import {
@@ -10,7 +10,7 @@ import {
 export function HalfYearBlock({
   yearIndicator,
   months,
-  hoverDate,
+  realigned,
   setHoverDate,
   highlightDays,
   fixedHighlightsDays,
@@ -25,7 +25,7 @@ export function HalfYearBlock({
           <div key={index}>
             <MonthBlock
               yearIndicator={yearIndicator}
-              hoverDate={hoverDate}
+              realigned={realigned}
               setHoverDate={setHoverDate}
               highlightDays={highlightDays}
               monthIndicator={value}
@@ -41,7 +41,7 @@ export function HalfYearBlock({
 
 export function YearBlock({
   yearIndicator,
-  hoverDate,
+  realigned,
   setHoverDate,
   highlightDays,
   fixedHighlightsDays,
@@ -71,7 +71,7 @@ export function YearBlock({
           <div key={index}>
             <MonthBlock
               yearIndicator={yearIndicator}
-              hoverDate={hoverDate}
+              realigned={realigned}
               setHoverDate={setHoverDate}
               highlightDays={highlightDays}
               monthIndicator={value}
@@ -142,23 +142,44 @@ export default function CalendarBlock({
   );
   const offsetDaysHighlights =
     inputLists.offsetDays && hoverDate
-      ? new Date(
-          // transfer fiscal date to calendar date
-          monthToNumber[hoverDate.monthIndicator] === 12
-            ? hoverDate.yearIndicator + 1
-            : hoverDate.yearIndicator,
-          monthToNumber[hoverDate.monthIndicator] % 12,
-          hoverDate.dayIndicator,
-          8,
-          0,
-          0
-        ).addDays(-inputLists.daysValue)
-      : null;
+      ? [
+          {
+            type: `start_${inputLists.daysValue}_days_duration`,
+            date: new Date(
+              // transfer fiscal date to calendar date
+              monthToNumber[hoverDate.monthIndicator] === 12
+                ? hoverDate.yearIndicator + 1
+                : hoverDate.yearIndicator,
+              monthToNumber[hoverDate.monthIndicator] % 12,
+              hoverDate.dayIndicator,
+              8,
+              0,
+              0
+            ).addDays(-inputLists.daysValue + 1),
+          },
+          {
+            type: `end_${inputLists.daysValue}_days_duration`,
+            date: new Date(
+              // transfer fiscal date to calendar date
+              monthToNumber[hoverDate.monthIndicator] === 12
+                ? hoverDate.yearIndicator + 1
+                : hoverDate.yearIndicator,
+              monthToNumber[hoverDate.monthIndicator] % 12,
+              hoverDate.dayIndicator,
+              8,
+              0,
+              0
+            ),
+          },
+        ]
+      : [{ type: null, date: null }];
 
   const monthStartHighlights =
     inputLists.monthStart && hoverDate
       ? (() => {
-          const monthStartDetails = startDatebyMonth.find(
+          const monthStartDetails = (
+            inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
+          ).find(
             (day) =>
               day.fis_yr_nbr === hoverDate.yearIndicator &&
               day.fis_mo_nbr === monthToNumber[hoverDate.monthIndicator]
@@ -187,7 +208,9 @@ export default function CalendarBlock({
   const quarterStartHighlights =
     inputLists.quarterStart && hoverDate
       ? (() => {
-          const quarterStartDetails = startDatebyMonth.find(
+          const quarterStartDetails = (
+            inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
+          ).find(
             (day) =>
               day.fis_yr_nbr === hoverDate.yearIndicator &&
               day.fis_mo_nbr === monthToNumber[hoverDate.monthIndicator]
@@ -240,11 +263,12 @@ export default function CalendarBlock({
 
   const highlightDays = [
     ...(YoYHighlights || []),
-    { type: "OffsetDays", date: offsetDaysHighlights },
+    ...(offsetDaysHighlights || []),
     ...(monthStartHighlights || []),
     ...(quarterStartHighlights || []),
   ].filter((highlight) => highlight.date !== null);
-
+  console.log(new Date(2023, 8, 40, 8, 0, 0));
+  console.log(fixedHighlightsDays);
   return (
     <div className="flex flex-row justify-end gap-4">
       {yearsShown >= 4 ? (
@@ -253,7 +277,7 @@ export default function CalendarBlock({
             <div key={index}>
               <YearBlock
                 yearIndicator={value}
-                hoverDate={hoverDate}
+                realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
                 fixedHighlightsDays={fixedHighlightsDays}
@@ -275,7 +299,7 @@ export default function CalendarBlock({
               <HalfYearBlock
                 yearIndicator={value}
                 months={springMonths}
-                hoverDate={hoverDate}
+                realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
                 fixedHighlightsDays={fixedHighlightsDays}
@@ -288,7 +312,7 @@ export default function CalendarBlock({
               <HalfYearBlock
                 yearIndicator={value}
                 months={fallMonths}
-                hoverDate={hoverDate}
+                realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
                 fixedHighlightsDays={fixedHighlightsDays}
