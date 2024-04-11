@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import CalendarBlock from "./components/interactive/calendarblock";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 export default function Home() {
   const [lastYearShown, setLastYearShown] = useState(3);
   const [yearsShown, setYearsShown] = useState(3);
@@ -17,6 +18,8 @@ export default function Home() {
     quarterStart: false,
     realigned: true,
   });
+
+  // useEffect(() => setFixedHighlightsDays([]), [inputLists]);
 
   const handleInputChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -111,7 +114,7 @@ export default function Home() {
               &#45; {/* Minus symbol */}
             </button>
           </div>
-          <div className="flex flex-row w-full overflow-auto pb-10">
+          <div className="flex flex-row w-full pb-10 pl-4">
             <CalendarBlock
               lastYearShown={lastYearShown}
               yearsShown={yearsShown}
@@ -128,15 +131,12 @@ export default function Home() {
         {/* INPUTS SELECTIONS */}
         <div className="flex flex-col space-y-4 p-4 max-xl:space-y-0 max-xl:p-0">
           <div className="flex items-center">
-            {" "}
-            {/* Container for label and switch, ensuring alignment */}
             <label
               htmlFor="realignedToggle"
               className="mr-2 text-sm font-medium"
             >
               Realigned Calendar
-            </label>{" "}
-            {/* Label */}
+            </label>
             <div className="switch">
               <input
                 type="checkbox"
@@ -151,7 +151,25 @@ export default function Home() {
               />
               <label htmlFor="realignedToggle" className="slider round"></label>
             </div>
+            <div className="popup-container ml-2">
+              <button className="info-button">
+                <FontAwesomeIcon icon={faInfoCircle} />
+              </button>
+              <div className="popup-message text-sm font-medium">
+                For better comparability, NRF 4-5-4 Calendar restates 53-week
+                years (2012,2017,2023,etc.)
+                <a
+                  href="https://nrf.com/resources/4-5-4-calendar#:~:text=What%20is%20a%2053%2Dweek%20year%3F"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 pl-2"
+                >
+                  Read More
+                </a>
+              </div>
+            </div>
           </div>
+
           <span className="text-xl font-medium">Calculation Dates</span>
           <div className="space-y-2">
             <CheckboxOption
@@ -220,7 +238,7 @@ export default function Home() {
         </div>
 
         {/* OUTPUT */}
-        <div className="flex justify-start">
+        <div className="flex justify-center">
           <AutoSizeTextDisplay text={format(fixedHighlightsDays)} />
         </div>
       </div>
@@ -252,13 +270,15 @@ function CheckboxOption({ id, label, checked, onChange }) {
 function AutoSizeTextDisplay({ text }) {
   return (
     <div
-      className="border border-gray-200 rounded-lg font-mono p-2 overflow-auto"
+      className="border border-gray-100 rounded-lg font-mono p-2 overflow-auto"
       style={{
         fontFamily: "monospace",
         fontSize: "16px",
         textAlign: "right",
         maxHeight: "100vh",
         maxWidth: "100vw",
+        minWidth: "10vw",
+        minHeight: "10vh",
       }}
     >
       <span style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}>

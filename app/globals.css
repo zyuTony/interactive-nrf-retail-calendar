@@ -52,3 +52,31 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.popup-message {
+  visibility: hidden;
+  width: 250px;
+  height: 100px;
+  background-color: rgb(226, 226, 226);
+  color: #000000;
+  border-radius: 8px;
+  padding: 10px 10px; /* 10px top and bottom, 20px left and right */
+
+  /* Position adjustments */
+  position: absolute;
+  z-index: 1;
+  top: 110%;
+  left: 120%; /* May need adjustment */
+  transform: translateY(-40%);
+}
+
+/* Style for the popup container */
+.popup-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Show the popup message when hovering over the popup container */
+.popup-container:hover .popup-message {
+  visibility: visible;
+}

@@ -1,89 +1,11 @@
 import { startDatebyMonth, startOrigDatebyMonth } from "./begindateinfo";
 import { useState } from "react";
-import { MonthBlock } from "./monthblock";
+import { HalfYearBlock, YearBlock } from "./yearblock";
 import {
   FirstHalfWeekIndicator,
   SecondHalfWeekIndicator,
   WeekIndicator,
 } from "./weekindicator";
-
-export function HalfYearBlock({
-  yearIndicator,
-  months,
-  realigned,
-  setHoverDate,
-  highlightDays,
-  fixedHighlightsDays,
-  setFixedHighlightsDays,
-}) {
-  return (
-    <div className="flex flex-col gap-2 items-center">
-      <div className="text-lg font-medium">{yearIndicator}</div>
-
-      {months.map((value, index) => {
-        return (
-          <div key={index}>
-            <MonthBlock
-              yearIndicator={yearIndicator}
-              realigned={realigned}
-              setHoverDate={setHoverDate}
-              highlightDays={highlightDays}
-              monthIndicator={value}
-              fixedHighlightsDays={fixedHighlightsDays}
-              setFixedHighlightsDays={setFixedHighlightsDays}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export function YearBlock({
-  yearIndicator,
-  realigned,
-  setHoverDate,
-  highlightDays,
-  fixedHighlightsDays,
-  setFixedHighlightsDays,
-}) {
-  const months = [
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUNE",
-    "JULY",
-    "AUG",
-    "SEPT",
-    "OCT",
-    "NOV",
-    "DEC",
-    "JAN",
-  ];
-
-  return (
-    <div className="flex flex-col gap-2 items-center">
-      <div className="text-lg font-medium">{yearIndicator}</div>
-
-      {months.map((value, index) => {
-        return (
-          <div key={index}>
-            <MonthBlock
-              yearIndicator={yearIndicator}
-              realigned={realigned}
-              setHoverDate={setHoverDate}
-              highlightDays={highlightDays}
-              monthIndicator={value}
-              fixedHighlightsDays={fixedHighlightsDays}
-              setFixedHighlightsDays={setFixedHighlightsDays}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 
 export default function CalendarBlock({
   lastYearShown,
@@ -101,8 +23,6 @@ export default function CalendarBlock({
   const PREVYROFFSET = -364;
   const [hoverDate, setHoverDate] = useState(null);
 
-  const springMonths = ["FEB", "MAR", "APR", "MAY", "JUNE", "JULY"];
-  const fallMonths = ["AUG", "SEPT", "OCT", "NOV", "DEC", "JAN"];
   const yearList = [
     2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014,
     2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026,
@@ -136,22 +56,21 @@ export default function CalendarBlock({
     10: "NOV",
     11: "DEC",
   };
-  const yearIndicator = yearList.slice(
+
+  const displayedYearList = yearList.slice(
     yearList.length - lastYearShown - yearsShown,
     yearList.length - lastYearShown
   );
+
   const offsetDaysHighlights =
     inputLists.offsetDays && hoverDate
       ? [
           {
             type: `start_${inputLists.daysValue}_days_duration`,
             date: new Date(
-              // transfer fiscal date to calendar date
-              monthToNumber[hoverDate.monthIndicator] === 12
-                ? hoverDate.yearIndicator + 1
-                : hoverDate.yearIndicator,
-              monthToNumber[hoverDate.monthIndicator] % 12,
-              hoverDate.dayIndicator,
+              hoverDate.calYrNumBlockHead,
+              hoverDate.calMoNumBlockHead - 1,
+              hoverDate.calDayNumBlockHead + hoverDate.index,
               8,
               0,
               0
@@ -160,12 +79,9 @@ export default function CalendarBlock({
           {
             type: `end_${inputLists.daysValue}_days_duration`,
             date: new Date(
-              // transfer fiscal date to calendar date
-              monthToNumber[hoverDate.monthIndicator] === 12
-                ? hoverDate.yearIndicator + 1
-                : hoverDate.yearIndicator,
-              monthToNumber[hoverDate.monthIndicator] % 12,
-              hoverDate.dayIndicator,
+              hoverDate.calYrNumBlockHead,
+              hoverDate.calMoNumBlockHead - 1,
+              hoverDate.calDayNumBlockHead + hoverDate.index,
               8,
               0,
               0
@@ -177,27 +93,27 @@ export default function CalendarBlock({
   const monthStartHighlights =
     inputLists.monthStart && hoverDate
       ? (() => {
-          const monthStartDetails = (
+          const targetMonth = (
             inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
           ).find(
             (day) =>
-              day.fis_yr_nbr === hoverDate.yearIndicator &&
-              day.fis_mo_nbr === monthToNumber[hoverDate.monthIndicator]
+              day.cal_yr === hoverDate.calYrNumBlockHead &&
+              day.cal_mo === hoverDate.calMoNumBlockHead
           );
 
-          if (monthStartDetails) {
+          if (targetMonth) {
             return [
               {
-                type: `${monthStartDetails.fis_yr_nbr}_${
-                  numberToMonth[monthStartDetails.fis_mo_nbr]
+                type: `${targetMonth.fis_yr_nbr}_${
+                  numberToMonth[targetMonth.fis_mo_nbr]
                 }_start_date`,
-                date: new Date(monthStartDetails.mo_strt_dt + " 08:00"),
+                date: new Date(targetMonth.mo_strt_dt + " 08:00"),
               },
               {
-                type: `${monthStartDetails.fis_yr_nbr}_${
-                  numberToMonth[monthStartDetails.fis_mo_nbr]
+                type: `${targetMonth.fis_yr_nbr}_${
+                  numberToMonth[targetMonth.fis_mo_nbr]
                 }_end_date`,
-                date: new Date(monthStartDetails.mo_end_dt + " 08:00"),
+                date: new Date(targetMonth.mo_end_dt + " 08:00"),
               },
             ];
           }
@@ -208,75 +124,98 @@ export default function CalendarBlock({
   const quarterStartHighlights =
     inputLists.quarterStart && hoverDate
       ? (() => {
-          const quarterStartDetails = (
+          const targetQuarter = (
             inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
           ).find(
             (day) =>
-              day.fis_yr_nbr === hoverDate.yearIndicator &&
-              day.fis_mo_nbr === monthToNumber[hoverDate.monthIndicator]
+              day.cal_yr === hoverDate.calYrNumBlockHead &&
+              day.cal_mo === hoverDate.calMoNumBlockHead
           );
 
-          if (quarterStartDetails) {
+          if (targetQuarter) {
             return [
               {
-                type: `${quarterStartDetails.fis_yr_nbr}_Q${quarterStartDetails.fis_qtr_nbr}_start_date`,
-                date: new Date(quarterStartDetails.qtr_strt_dt + " 08:00"),
+                type: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_start_date`,
+                date: new Date(targetQuarter.qtr_strt_dt + " 08:00"),
               },
               {
-                type: `${quarterStartDetails.fis_yr_nbr}_Q${quarterStartDetails.fis_qtr_nbr}_end_date`,
-                date: new Date(quarterStartDetails.qtr_end_dt + " 08:00"),
+                type: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_end_date`,
+                date: new Date(targetQuarter.qtr_end_dt + " 08:00"),
               },
             ];
           }
           return [{ type: null, date: null }];
-        })() // This pair of parentheses invokes the function
+        })()
       : [{ type: null, date: null }];
 
   const YoYHighlights =
     inputLists.YoY && hoverDate
-      ? Array.from({ length: yearsShown - 1 }).map((_, index) => {
-          const offsetDays = PREVYROFFSET * (index + 1);
-          const previousYearDate = new Date(
-            monthToNumber[hoverDate.monthIndicator] === 12
-              ? hoverDate.yearIndicator + 1
-              : hoverDate.yearIndicator,
-            monthToNumber[hoverDate.monthIndicator] % 12,
-            hoverDate.dayIndicator,
-            8,
-            0,
-            0
+      ? (() => {
+          const targetDay = (
+            inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
+          ).find(
+            (day) =>
+              day.cal_yr === hoverDate.calYrNumBlockHead &&
+              day.cal_mo === hoverDate.calMoNumBlockHead
           );
-          previousYearDate.setDate(previousYearDate.getDate() + offsetDays);
+          // console.log("targetday", targetDay);
+          return Array.from({ length: yearsShown - 1 }).map((_, index) => {
+            const [targetCalYear, targetCalMo, targetCalDays] = (
+              inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
+            )
+              .find(
+                (day) =>
+                  day.fis_yr_nbr === targetDay.fis_yr_nbr - (index + 1) &&
+                  day.fis_mo_nbr == targetDay.fis_mo_nbr
+              )
+              .mo_strt_dt.split("-")
+              .map((value, _) => parseInt(value, 10));
+            // console.log(
+            //   "targetdaydddsdsds",
+            //   targetCalYear,
+            //   targetCalMo,
+            //   targetCalDays
+            // );
+            const previousYearDate = new Date(
+              targetCalYear,
+              targetCalMo - 1,
+              targetCalDays + hoverDate.index,
+              8,
+              0,
+              0
+            );
 
-          let typeLabel;
-          if (index === 0) {
-            typeLabel = "last_year";
-          } else if (index === 1) {
-            typeLabel = "last_last_year";
-          } else {
-            typeLabel = `back_${index + 1}_years`;
-          }
+            let typeLabel;
+            if (index === 0) {
+              typeLabel = "last_year";
+            } else if (index === 1) {
+              typeLabel = "last_last_year";
+            } else {
+              typeLabel = `back_${index + 1}_years`;
+            }
 
-          return { type: typeLabel, date: previousYearDate };
-        })
+            return { type: typeLabel, date: previousYearDate };
+          });
+        })()
       : [{ type: null, date: null }];
 
+  // console.log(YoYHighlights);
   const highlightDays = [
     ...(YoYHighlights || []),
     ...(offsetDaysHighlights || []),
     ...(monthStartHighlights || []),
     ...(quarterStartHighlights || []),
   ].filter((highlight) => highlight.date !== null);
-  console.log(new Date(2023, 8, 40, 8, 0, 0));
-  console.log(fixedHighlightsDays);
+  // console.log(new Date(2023, 8, 40, 8, 0, 0));
+  // console.log(fixedHighlightsDays);
   return (
-    <div className="flex flex-row justify-end gap-4">
+    <>
       {yearsShown >= 4 ? (
-        <>
-          {yearIndicator.map((value, index) => (
-            <div key={index}>
+        <div className="flex flex-row justify-start">
+          {displayedYearList.map((value, index) => (
+            <div className="pl-4" key={index}>
               <YearBlock
-                yearIndicator={value}
+                fisYrColNum={value}
                 realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
@@ -285,20 +224,20 @@ export default function CalendarBlock({
               />
             </div>
           ))}
-          <div className=" min-w-5">
+          <div className="w-1">
             <WeekIndicator />
           </div>
-        </>
+        </div>
       ) : (
-        <>
+        <div className="flex flex-row justify-start">
           <div className=" min-w-5">
             <FirstHalfWeekIndicator />
           </div>
-          {yearIndicator.map((value, index) => (
-            <div key={index}>
+          {displayedYearList.map((value, index) => (
+            <div className="pl-4" key={index}>
               <HalfYearBlock
-                yearIndicator={value}
-                months={springMonths}
+                type={"spring"}
+                fisYrColNum={value}
                 realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
@@ -307,11 +246,11 @@ export default function CalendarBlock({
               />
             </div>
           ))}
-          {yearIndicator.map((value, index) => (
-            <div key={index}>
+          {displayedYearList.map((value, index) => (
+            <div className="pl-4" key={index}>
               <HalfYearBlock
-                yearIndicator={value}
-                months={fallMonths}
+                type={"fall"}
+                fisYrColNum={value}
                 realigned={inputLists.realigned}
                 setHoverDate={setHoverDate}
                 highlightDays={highlightDays}
@@ -323,8 +262,8 @@ export default function CalendarBlock({
           <div className=" min-w-5">
             <SecondHalfWeekIndicator />
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }

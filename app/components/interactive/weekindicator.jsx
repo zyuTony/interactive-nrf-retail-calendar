@@ -1,6 +1,6 @@
 export function WeekIndicator() {
   return (
-    <div className="grid grid-cols-1 pt-14 pl-1 h-full">
+    <div className="grid grid-cols-1 pl-2 pt-14 h-full">
       {Array.from({ length: 64 }).map((_, index) => {
         if (
           index === 4 ||
@@ -46,7 +46,7 @@ export function WeekIndicator() {
 
 export function SecondHalfWeekIndicator() {
   return (
-    <div className="grid grid-cols-1 pt-14 pl-1 h-1/2">
+    <div className="grid grid-cols-1 pl-2 pt-14 h-1/2">
       {Array.from({ length: 31 }).map((_, index) => {
         index = index + 26;
         if (
@@ -81,7 +81,7 @@ export function SecondHalfWeekIndicator() {
 
 export function FirstHalfWeekIndicator() {
   return (
-    <div className="grid grid-cols-1 pt-14 pr-1 h-1/2">
+    <div className="grid grid-cols-1 pt-14 h-1/2">
       {Array.from({ length: 31 }).map((_, index) => {
         if (
           index === 4 ||

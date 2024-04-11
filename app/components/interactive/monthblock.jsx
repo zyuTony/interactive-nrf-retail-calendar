@@ -1,81 +1,74 @@
 import { startDatebyMonth, startOrigDatebyMonth } from "./begindateinfo";
 
 export function MonthBlock({
-  yearIndicator,
+  fisYrColNum,
   realigned,
   setHoverDate,
   highlightDays,
-  monthIndicator,
+  fisMoBlockNum,
   fixedHighlightsDays,
   setFixedHighlightsDays,
 }) {
   const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
   const fiveWeekMonth = ["MAR", "JUNE", "SEPT", "DEC"];
-  const monthToNumber = {
-    JAN: 12,
-    FEB: 1,
-    MAR: 2,
-    APR: 3,
-    MAY: 4,
-    JUNE: 5,
-    JULY: 6,
-    AUG: 7,
-    SEPT: 8,
-    OCT: 9,
-    NOV: 10,
-    DEC: 11,
+  const moNumtoTag = {
+    12: "JAN",
+    1: "FEB",
+    2: "MAR",
+    3: "APR",
+    4: "MAY",
+    5: "JUNE",
+    6: "JULY",
+    7: "AUG",
+    8: "SEPT",
+    9: "OCT",
+    10: "NOV",
+    11: "DEC",
   };
-  const numRow = fiveWeekMonth.includes(monthIndicator) ? 5 : 4;
-  const dayLength = numRow * 7;
 
-  const moBeginDayNum = parseInt(
+  const monthTag = moNumtoTag[fisMoBlockNum];
+  const numRow = fiveWeekMonth.includes(monthTag) ? 5 : 4;
+  const numOfDays = numRow * 7;
+
+  const [calYrNumBlockHead, calMoNumBlockHead, calDayNumBlockHead] =
     (realigned ? startDatebyMonth : startOrigDatebyMonth)
       .find(
         (day) =>
-          day.fis_yr_nbr === yearIndicator &&
-          day.fis_mo_nbr == monthToNumber[monthIndicator]
+          day.fis_yr_nbr === fisYrColNum && day.fis_mo_nbr == fisMoBlockNum
       )
-      .mo_strt_dt.split("-")[2],
-    10
-  );
-  const moBeginMoNum = parseInt(
-    (realigned ? startDatebyMonth : startOrigDatebyMonth)
-      .find(
-        (day) =>
-          day.fis_yr_nbr === yearIndicator &&
-          day.fis_mo_nbr == monthToNumber[monthIndicator]
-      )
-      .mo_strt_dt.split("-")[1],
-    10
-  );
-  const shouldHighlight = (currentDate) => {
-    let highlightType = { isHighlighted: false, type: null };
+      .mo_strt_dt.split("-")
+      .map((value, _) => parseInt(value, 10)) || [];
+
+  // Determine whether a cell should be highlighted
+  const cellColor = (cellDate) => {
+    // if current cell is in the fixed Highlight list
     const isFixedHighlight = fixedHighlightsDays.some(
       (highlight) =>
-        highlight.date.getFullYear() === currentDate.getFullYear() &&
-        highlight.date.getMonth() === currentDate.getMonth() &&
-        highlight.date.getDate() === currentDate.getDate()
+        highlight.date.getFullYear() === cellDate.getFullYear() &&
+        highlight.date.getMonth() === cellDate.getMonth() &&
+        highlight.date.getDate() === cellDate.getDate()
     );
 
     if (isFixedHighlight) {
-      return { isHighlighted: true, type: "fixed" };
+      return "bg-gray-300";
     }
-
-    const isOtherHighlight = highlightDays.some(
+    // if current cell is in the active Highlight list
+    const isActiveHighlight = highlightDays.some(
       (highlight) =>
-        highlight.date.getFullYear() === currentDate.getFullYear() &&
-        highlight.date.getMonth() === currentDate.getMonth() &&
-        highlight.date.getDate() === currentDate.getDate()
+        highlight.date.getFullYear() === cellDate.getFullYear() &&
+        highlight.date.getMonth() === cellDate.getMonth() &&
+        highlight.date.getDate() === cellDate.getDate()
     );
 
-    if (isOtherHighlight) {
-      return { isHighlighted: true, type: "other" };
+    if (isActiveHighlight) {
+      return "bg-gray-300";
     }
 
-    return highlightType;
+    return "";
   };
+
   const calendarWidth = "w-40";
-  const monthIndicatorWidth = "w-3";
+  const monthTagWidth = "w-3";
   const calendarHeight = "h-22";
 
   return (
@@ -98,11 +91,9 @@ export function MonthBlock({
         </div>
         <div className="flex flex-row">
           {/* MONTH INDICATOR TAG */}
-          <div
-            className={`flex flex-col ${monthIndicatorWidth} ${calendarHeight}`}
-          >
+          <div className={`flex flex-col ${monthTagWidth} ${calendarHeight}`}>
             <div className="flex flex-col justify-start bg-black h-full">
-              {monthIndicator.split("").map((value, index) => (
+              {monthTag.split("").map((value, index) => (
                 <div key={index} className="text-center text-sm text-white">
                   {value}
                 </div>
@@ -114,40 +105,32 @@ export function MonthBlock({
           <div
             className={`grid grid-cols-7 grid-rows-${numRow} ${calendarWidth} ${calendarHeight}`}
           >
-            {Array.from({ length: dayLength }).map((_, index) => {
-              const currentDate = new Date(
-                // transfer fiscal date to calendar date
-                monthIndicator === "JAN" ? yearIndicator + 1 : yearIndicator,
-                moBeginMoNum - 1,
-                moBeginDayNum + index,
+            {Array.from({ length: numOfDays }).map((_, index) => {
+              // get cell's calendar date
+              const cellDate = new Date(
+                calYrNumBlockHead,
+                calMoNumBlockHead - 1,
+                calDayNumBlockHead + index,
                 8,
                 0,
                 0
               );
-              const dayNumber = currentDate.getDate();
-              const highlightDetails = shouldHighlight(currentDate);
-              let highlightClass = "";
 
-              if (highlightDetails.isHighlighted) {
-                highlightClass =
-                  highlightDetails.type === "fixed"
-                    ? "bg-gray-300"
-                    : "bg-green-300";
-              }
               return (
                 <div
                   key={index}
                   onMouseEnter={() =>
                     setHoverDate({
-                      yearIndicator: yearIndicator,
-                      monthIndicator: monthIndicator,
-                      dayIndicator: moBeginDayNum + index,
+                      calYrNumBlockHead: calYrNumBlockHead,
+                      calMoNumBlockHead: calMoNumBlockHead,
+                      calDayNumBlockHead: calDayNumBlockHead,
+                      index: index,
                     })
                   }
                   onMouseLeave={() => setHoverDate(null)}
                   onClick={() => {
                     setFixedHighlightsDays([
-                      { type: "current_date", date: currentDate },
+                      { type: "current_date", date: cellDate },
                       ...(highlightDays || []),
                     ]);
 
@@ -155,14 +138,14 @@ export function MonthBlock({
                     //   yearIndicator,
                     //   moBeginMoNum - 1,
                     //   moBeginDayNum + index,
-                    //   currentDate,
+                    //   cellDate,
                     //   "this is highlighted"
                     // );
                   }}
                   className={`flex items-center justify-center text-sm border border-gray-500
-                ${highlightClass} cursor-pointer hover:bg-green-300`}
+                ${cellColor(cellDate)} cursor-pointer hover:bg-green-300`}
                 >
-                  {dayNumber}
+                  {cellDate.getDate()}
                 </div>
               );
             })}
