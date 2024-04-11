@@ -1,4 +1,5 @@
 import { startDatebyMonth, startOrigDatebyMonth } from "./begindateinfo";
+import { track } from "@vercel/analytics";
 
 export function MonthBlock({
   fisYrColNum,
@@ -129,6 +130,7 @@ export function MonthBlock({
                   }
                   onMouseLeave={() => setHoverDate(null)}
                   onClick={() => {
+                    track("singleCellHighlighted");
                     setFixedHighlightsDays([
                       { type: "current_date", date: cellDate },
                       ...(highlightDays || []),

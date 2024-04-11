@@ -6,6 +6,7 @@ import {
   SecondHalfWeekIndicator,
   WeekIndicator,
 } from "./weekindicator";
+import { track } from "@vercel/analytics";
 
 export default function CalendarBlock({
   lastYearShown,
@@ -20,7 +21,6 @@ export default function CalendarBlock({
     return date;
   };
 
-  const PREVYROFFSET = -364;
   const [hoverDate, setHoverDate] = useState(null);
 
   const yearList = [
@@ -64,30 +64,33 @@ export default function CalendarBlock({
 
   const offsetDaysHighlights =
     inputLists.offsetDays && hoverDate
-      ? [
-          {
-            type: `start_${inputLists.daysValue}_days_duration`,
-            date: new Date(
-              hoverDate.calYrNumBlockHead,
-              hoverDate.calMoNumBlockHead - 1,
-              hoverDate.calDayNumBlockHead + hoverDate.index,
-              8,
-              0,
-              0
-            ).addDays(-inputLists.daysValue + 1),
-          },
-          {
-            type: `end_${inputLists.daysValue}_days_duration`,
-            date: new Date(
-              hoverDate.calYrNumBlockHead,
-              hoverDate.calMoNumBlockHead - 1,
-              hoverDate.calDayNumBlockHead + hoverDate.index,
-              8,
-              0,
-              0
-            ),
-          },
-        ]
+      ? (() => {
+          track("offsetDuration");
+          return [
+            {
+              type: `start_${inputLists.daysValue}_days_duration`,
+              date: new Date(
+                hoverDate.calYrNumBlockHead,
+                hoverDate.calMoNumBlockHead - 1,
+                hoverDate.calDayNumBlockHead + hoverDate.index,
+                8,
+                0,
+                0
+              ).addDays(-inputLists.daysValue + 1),
+            },
+            {
+              type: `end_${inputLists.daysValue}_days_duration`,
+              date: new Date(
+                hoverDate.calYrNumBlockHead,
+                hoverDate.calMoNumBlockHead - 1,
+                hoverDate.calDayNumBlockHead + hoverDate.index,
+                8,
+                0,
+                0
+              ),
+            },
+          ];
+        })()
       : [{ type: null, date: null }];
 
   const monthStartHighlights =
@@ -102,6 +105,7 @@ export default function CalendarBlock({
           );
 
           if (targetMonth) {
+            track("monthStartEnd");
             return [
               {
                 type: `${targetMonth.fis_yr_nbr}_${
@@ -133,6 +137,7 @@ export default function CalendarBlock({
           );
 
           if (targetQuarter) {
+            track("quarterStartEnd");
             return [
               {
                 type: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_start_date`,
@@ -151,6 +156,7 @@ export default function CalendarBlock({
   const YoYHighlights =
     inputLists.YoY && hoverDate
       ? (() => {
+          track("yoyCompDay");
           const targetDay = (
             inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
           ).find(

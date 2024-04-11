@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import CalendarBlock from "./components/interactive/calendarblock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { track } from "@vercel/analytics";
+
 export default function Home() {
   const [lastYearShown, setLastYearShown] = useState(3);
   const [yearsShown, setYearsShown] = useState(3);
@@ -19,8 +21,6 @@ export default function Home() {
     realigned: true,
   });
 
-  // useEffect(() => setFixedHighlightsDays([]), [inputLists]);
-
   const handleInputChange = (e) => {
     const { name, type, checked, value } = e.target;
     setInputLists((prev) => ({
@@ -29,6 +29,7 @@ export default function Home() {
     }));
   };
   const handleIncrement = () => {
+    track("ChangeDisplayedYears");
     if (yearsShown < 6) {
       if (yearsShown !== 3) {
         toast.success("Displayed Years + 1");
@@ -40,11 +41,13 @@ export default function Home() {
       }
       setYearsShown(yearsShown + 1);
     } else {
+      track("ChangeDisplayedYears_reachlimit");
       toast.error("Maximum Display reached");
     }
   };
 
   const handleDecrement = () => {
+    track("ChangeDisplayedYears");
     if (yearsShown > 1) {
       if (yearsShown !== 4) {
         toast.success("Displayed Years - 1");
@@ -56,23 +59,28 @@ export default function Home() {
       }
       setYearsShown(yearsShown - 1);
     } else {
+      track("ChangeDisplayedYears_reachlimit");
       toast.error("Minimum Display reached");
     }
   };
   const handleYearMinusOne = () => {
+    track("ChangeYearRange");
     if (lastYearShown < 20) {
       setLastYearShown(lastYearShown + 1);
       toast.success("Backward 1 year");
     } else {
+      track("ChangeYearRange_reachlimit");
       toast.error(" Minimum year reached!");
     }
   };
 
   const handleYearAddOne = () => {
+    track("ChangeYearRange");
     if (lastYearShown > 1) {
       setLastYearShown(lastYearShown - 1);
       toast.success("Forward 1 year");
     } else {
+      track("ChangeYearRange_reachlimit");
       toast.error("Maximum year reached!");
     }
   };
