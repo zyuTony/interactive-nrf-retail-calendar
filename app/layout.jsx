@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="TAB72fTdWrWM-UNi_DiJJ9EY03oJ9RoJptG8D0HOXMs"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className="flex flex-col">
         <NavMenu />
