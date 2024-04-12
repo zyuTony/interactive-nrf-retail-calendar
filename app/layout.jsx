@@ -1,7 +1,5 @@
 // Import necessary modules and components
 import React from "react";
-import Head from "next/head"; // Import Head from Next.js
-import { Inter } from "next/font/google";
 import NavMenu from "./navmenu";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
