@@ -33,16 +33,6 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content={metadata.title} />
         <meta name="twitter:description" content={metadata.description} />
         <title>{metadata.title}</title>
-        {/* Dynamic font loading with Next.js */}
-        <style jsx global>{`
-          @font-face {
-            font-family: "Inter";
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: local("Inter"), url(${inter.src}) format("woff2");
-          }
-        `}</style>
       </Head>
       <body className="flex flex-col">
         <NavMenu />
