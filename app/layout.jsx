@@ -4,7 +4,7 @@ import NavMenu from "./navmenu";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
-
+import Head from "next/head";
 // Define your metadata more extensively
 export const metadata = {
   title: "Interactive Retail Calendar",
@@ -18,12 +18,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <meta
           name="google-site-verification"
           content="TAB72fTdWrWM-UNi_DiJJ9EY03oJ9RoJptG8D0HOXMs"
         />
-      </head>
+      </Head>
       <body className="flex flex-col">
         <NavMenu />
         {/* Adjust the mt-x class as needed to ensure enough space for the NavMenu */}
