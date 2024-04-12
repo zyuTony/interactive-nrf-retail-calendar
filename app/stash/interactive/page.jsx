@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import CalendarBlock from "../components/interactive/calendarblock";
+import CalendarBlock from "../../components/interactive/calendarblock";
 
 export default function Home() {
-  return <></>
+  return <></>;
 }
 // export default function Home() {
 //   const [lastYearShown, setLastYearShown] = useState(3);

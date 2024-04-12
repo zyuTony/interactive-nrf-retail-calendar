@@ -26,9 +26,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/dayinfo/page.jsx",
-    "app/compday/page.jsx",
-    "app/interactive/page.jsx",
+    "app/stash/dayinfo/page.jsx",
+    "app/stash/compday/page.jsx",
+    "app/stash/interactive/page.jsx",
     "app/page.jsx",
     "app/layout.jsx"
   ],
