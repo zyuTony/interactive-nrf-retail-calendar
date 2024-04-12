@@ -29,7 +29,8 @@
     "app/dayinfo/page.jsx",
     "app/compday/page.jsx",
     "app/interactive/page.jsx",
-    "app/page.jsx"
+    "app/page.jsx",
+    "app/layout.jsx"
   ],
   "exclude": ["node_modules"]
 }
