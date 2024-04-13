@@ -12,6 +12,8 @@ export const metadata = {
   author: "YZY",
   keywords:
     "NRF retail calendar, 454 calendar, 445 calendar, timeframe, MTD, QTD, YOY, retail analysis, interactive calendar, 3 Years Calendar",
+  image: "https://i.imgur.com/bIxdhMg.png",
+  url: "https://www.findtimeframe.com",
   openGraph: {
     type: "website",
     title: "Interactive Retail Calendar",
