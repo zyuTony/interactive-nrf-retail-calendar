@@ -1,5 +1,5 @@
-import Link from "next/link";
-import UsernameForm from "./components/cookietracking/usernameform";
+"use client";
+import { track } from "@vercel/analytics/server";
 
 export default function NavMenu() {
   const pastCalendars = [
@@ -28,12 +28,12 @@ export default function NavMenu() {
     <nav className="w-full bg-white bg-opacity-95 shadow-md fixed top-0 left-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center py-3">
-          <Link
+          <a
             href="/"
             className="text-blue-600 hover:text-blue-900 text-lg font-semibold"
           >
             454 Calendar
-          </Link>
+          </a>
 
           <div className="relative group ml-8">
             <span className="text-gray-600 hover:text-gray-900 text-sm font-medium cursor-pointer text-center pl-5">
@@ -43,11 +43,13 @@ export default function NavMenu() {
               <ul className="py-1">
                 {pastCalendars.map((link, index) => (
                   <li key={index}>
+                    <button></button>
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-gray-900 block px-2 py-2 text-sm rounded-md hover:bg-gray-50 w-full text-center"
+                      onClick={() => track("viewd_pdf_calendar")}
                     >
                       {link.year}
                     </a>
