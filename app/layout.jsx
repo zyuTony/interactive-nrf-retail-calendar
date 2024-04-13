@@ -36,6 +36,13 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="TAB72fTdWrWM-UNi_DiJJ9EY03oJ9RoJptG8D0HOXMs"
         />
+        <meta property="og:url" content={metadata.url} />
+        <meta property="og:image" content={metadata.image} />
+        <meta property="og:site_name" content="Interactive Retail Calendar" />
+        <meta property="og:locale" content="en_US" />
+        {/* Additional tags for og:image size if known */}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
       </head>
       <body className="flex flex-col">
         <NavMenu />
