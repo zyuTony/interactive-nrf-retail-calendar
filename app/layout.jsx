@@ -1,10 +1,9 @@
-// Import necessary modules and components
 import React from "react";
 import NavMenu from "./navmenu";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
-import Head from "next/head";
+
 // Define your metadata more extensively
 export const metadata = {
   title: "Interactive Retail Calendar",
@@ -13,24 +12,37 @@ export const metadata = {
   author: "YZY",
   keywords:
     "NRF retail calendar, 454 calendar, 445 calendar, timeframe, MTD, QTD, YOY, retail analysis, interactive calendar, 3 Years Calendar",
+  openGraph: {
+    type: "website",
+    title: "Interactive Retail Calendar",
+    siteName: "Interactive 454 Retail Calendar",
+    image: "https://i.imgur.com/bIxdhMg.png",
+    url: "https://www.findtimeframe.com",
+    width: 1200,
+    height: 630,
+    alt: "interactive calendar page",
+    description:
+      "Use this interactive 454 Calendar to pick date and calculate timeframe effortlessly and mistake free. Same calendar as the retail industry standard from NRF. Restated calendar included to deal with 53-week years.",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <Head>
+    <>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Google Verification */}
         <meta
           name="google-site-verification"
           content="TAB72fTdWrWM-UNi_DiJJ9EY03oJ9RoJptG8D0HOXMs"
         />
-      </Head>
+      </head>
       <body className="flex flex-col">
         <NavMenu />
-        {/* Adjust the mt-x class as needed to ensure enough space for the NavMenu */}
         <main className="flex flex-col mt-20">{children}</main>
         <Analytics />
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>
-    </html>
+    </>
   );
 }
