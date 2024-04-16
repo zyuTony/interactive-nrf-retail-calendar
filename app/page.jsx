@@ -88,7 +88,7 @@ export default function Home() {
   return (
     <div className=" flex flex-row px-10 max-xl:flex-col max-xl:pl-20">
       {/* LEFT SIDE - CALENDAR */}
-      <div className="flex flex-col items-center gap-0 pr-10 pb-10 max-xl:order-2 ">
+      <div className="flex flex-col max-xl:items-start items-center gap-0 pr-10 pb-10 max-xl:order-2 ">
         <div className="flex items-center justify-between w-full">
           <div className="flex w-full justify-between">
             <button
@@ -107,8 +107,8 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="flex flex-row item-start px-16">
-          <div className="flex flex-col py-8 pr-5">
+        <div className="flex flex-row item-start px-16 max-xl:px-0">
+          <div className="flex flex-col py-8 pr-5 max-xl:hidden">
             <button
               className="items-center justify-center w-8 h-8 bg-black text-slate-100 rounded-none hover:bg-gray-500 hover:text-black"
               onClick={handleIncrement}

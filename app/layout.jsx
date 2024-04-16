@@ -3,7 +3,7 @@ import NavMenu from "./navmenu";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
-
+import { GoogleAnalytics } from "@next/third-parties/google";
 // Define your metadata more extensively
 export const metadata = {
   title: "Interactive Retail Calendar",
@@ -30,7 +30,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <>
+    <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* Google Verification */}
@@ -52,6 +52,7 @@ export default function RootLayout({ children }) {
         <Analytics />
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>
-    </>
+      <GoogleAnalytics gaId="G-Q03G3CFK2E" />
+    </html>
   );
 }

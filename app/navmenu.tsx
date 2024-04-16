@@ -1,5 +1,4 @@
 import Link from "next/link";
-import UsernameForm from "./components/cookietracking/usernameform";
 
 export default function NavMenu() {
   const pastCalendars = [
@@ -60,36 +59,4 @@ export default function NavMenu() {
       </div>
     </nav>
   );
-}
-
-{
-  /* <div className="flex items-center">
-            <UsernameForm />
-          </div> */
-}
-{
-  /* <li>
-                <Link
-                  href="/dayinfo"
-                  className="text-gray-600 hover:text-gray-900"
-                >
-                  Day Info
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/compday"
-                  className="text-gray-600 hover:text-gray-900"
-                >
-                  Comp Day
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/duration"
-                  className="text-gray-600 hover:text-gray-900"
-                >
-                  Month Duration
-                </Link>
-              </li> */
 }
