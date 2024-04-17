@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
         <Analytics />
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>
-      <GoogleAnalytics gaId="G-Q03G3CFK2E" />
+      <GoogleAnalytics gaId="G-7FP2J5090B" />
     </html>
   );
 }
