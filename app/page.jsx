@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   const handleIncrement = () => {
-    sendGAEvent({ event: "ChangeDisplayedYears", value: "" });
+    window.gtag("event", "ChangeDisplayedYears", { value: "" });
     track("ChangeDisplayedYears");
 
     if (yearsShown < 6) {
@@ -45,14 +45,14 @@ export default function Home() {
       }
       setYearsShown(yearsShown + 1);
     } else {
-      sendGAEvent({ event: "ChangeDisplayedYears_reachlimit", value: "" });
+      window.gtag("event", "ChangeDisplayedYears_reachlimit", { value: "" });
       track("ChangeDisplayedYears_reachlimit");
       toast.error("Maximum Display reached");
     }
   };
 
   const handleDecrement = () => {
-    sendGAEvent({ event: "ChangeDisplayedYears", value: "" });
+    window.gtag("event", "ChangeDisplayedYears", { value: "" });
     track("ChangeDisplayedYears");
     if (yearsShown > 1) {
       if (yearsShown !== 4) {
@@ -65,19 +65,19 @@ export default function Home() {
       }
       setYearsShown(yearsShown - 1);
     } else {
-      sendGAEvent({ event: "ChangeDisplayedYears_reachlimit", value: "" });
+      window.gtag("event", "ChangeDisplayedYears_reachlimit", { value: "" });
       track("ChangeDisplayedYears_reachlimit");
       toast.error("Minimum Display reached");
     }
   };
   const handleYearMinusOne = () => {
-    sendGAEvent({ event: "ChangeYearRange", value: "" });
+    window.gtag("event", "ChangeYearRange", { value: "" });
     track("ChangeYearRange");
     if (lastYearShown < 20) {
       setLastYearShown(lastYearShown + 1);
       toast.success("Backward 1 year");
     } else {
-      sendGAEvent({ event: "ChangeYearRange_reachlimit", value: "" });
+      window.gtag("event", "ChangeYearRange_reachlimit", { value: "" });
       track("ChangeYearRange_reachlimit");
       toast.error(" Minimum year reached!");
     }
@@ -85,13 +85,12 @@ export default function Home() {
 
   const handleYearAddOne = () => {
     window.gtag("event", "ChangeYearRange", { value: "" });
-    sendGAEvent({ event: "ChangeYearRange", value: "" });
     track("ChangeYearRange");
     if (lastYearShown > 1) {
       setLastYearShown(lastYearShown - 1);
       toast.success("Forward 1 year");
     } else {
-      sendGAEvent({ event: "ChangeYearRange_reachlimit", value: "" });
+      window.gtag("event", "ChangeYearRange_reachlimit", { value: "" });
       track("ChangeYearRange_reachlimit");
       toast.error("Maximum year reached!");
     }
