@@ -2,7 +2,7 @@ import React from "react";
 import NavMenu from "./navmenu";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 // Define your metadata more extensively
 export const metadata = {
@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
       <body className="flex flex-col">
         <NavMenu />
         <main className="flex flex-col mt-20">{children}</main>
-        <Analytics />
+        {/* <Analytics /> */}
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>
       <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_TAG} />

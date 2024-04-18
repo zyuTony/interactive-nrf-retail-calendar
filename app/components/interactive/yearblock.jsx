@@ -22,21 +22,19 @@ export function HalfYearBlock({
     <div className="flex flex-col gap-2 items-center">
       <div className="text-lg font-medium">{fisYrColNum}</div>
 
-      {fisMoNumList.map((value, index) => {
-        return (
-          <div key={index}>
-            <MonthBlock
-              fisYrColNum={fisYrColNum}
-              realigned={realigned}
-              setHoverDate={setHoverDate}
-              highlightDays={highlightDays}
-              fisMoBlockNum={value + 1}
-              fixedHighlightsDays={fixedHighlightsDays}
-              setFixedHighlightsDays={setFixedHighlightsDays}
-            />
-          </div>
-        );
-      })}
+      {fisMoNumList.map((value, index) => (
+        <div key={index}>
+          <MonthBlock
+            fisYrColNum={fisYrColNum}
+            realigned={realigned}
+            setHoverDate={setHoverDate}
+            highlightDays={highlightDays}
+            fisMoBlockNum={value + 1}
+            fixedHighlightsDays={fixedHighlightsDays}
+            setFixedHighlightsDays={setFixedHighlightsDays}
+          />
+        </div>
+      ))}
     </div>
   );
 }
@@ -55,7 +53,7 @@ export function YearBlock({
 
       {Array.from({ length: 12 }).map((value, index) => {
         return (
-          <div key={index}>
+          <div key={value}>
             <MonthBlock
               fisYrColNum={fisYrColNum}
               realigned={realigned}

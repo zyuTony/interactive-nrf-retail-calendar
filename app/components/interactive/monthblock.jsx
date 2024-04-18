@@ -1,5 +1,4 @@
 import { startDatebyMonth, startOrigDatebyMonth } from "./begindateinfo";
-import { track } from "@vercel/analytics";
 
 export function MonthBlock({
   fisYrColNum,
@@ -80,14 +79,12 @@ export function MonthBlock({
           className={`grid grid-cols-7 border border-gray-500 h-5 ${calendarWidth}`}
         >
           {weekdays.map((value, index) => (
-            <>
-              <div
-                key={index}
-                className="flex items-center justify-center text-sm "
-              >
-                {value}
-              </div>
-            </>
+            <div
+              key={index}
+              className="flex items-center justify-center text-sm "
+            >
+              {value}
+            </div>
           ))}
         </div>
         <div className="flex flex-row">
@@ -130,19 +127,31 @@ export function MonthBlock({
                   }
                   onMouseLeave={() => setHoverDate(null)}
                   onClick={() => {
-                    track("singleCellHighlighted");
+                    // window.gtag("event", "singleCellHighlighted", {
+                    //   value: "",
+                    // });
+                    window.gtag("event", "date_calculations", {
+                      type: "singleCell",
+                    });
+                    if (highlightDays && highlightDays.length > 0) {
+                      const uniqueTypes = new Set();
+                      highlightDays.forEach((day) => {
+                        uniqueTypes.add(day.type);
+                      });
+                      uniqueTypes.forEach((type) => {
+                        window.gtag("event", "date_calculations", {
+                          type: type,
+                        });
+                      });
+                    }
                     setFixedHighlightsDays([
-                      { type: "current_date", date: cellDate },
+                      {
+                        type: "singleCell",
+                        name: "current_date",
+                        date: cellDate,
+                      },
                       ...(highlightDays || []),
                     ]);
-
-                    // console.log(
-                    //   yearIndicator,
-                    //   moBeginMoNum - 1,
-                    //   moBeginDayNum + index,
-                    //   cellDate,
-                    //   "this is highlighted"
-                    // );
                   }}
                   className={`flex items-center justify-center text-sm border border-gray-500
                 ${cellColor(cellDate)} cursor-pointer hover:bg-green-300`}

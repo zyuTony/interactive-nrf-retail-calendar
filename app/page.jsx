@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import CalendarBlock from "./components/interactive/calendarblock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { track } from "@vercel/analytics";
 import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Home() {
@@ -31,10 +30,8 @@ export default function Home() {
   };
 
   const handleIncrement = () => {
-    window.gtag("event", "ChangeDisplayedYears", { value: "" });
-    track("ChangeDisplayedYears");
-
     if (yearsShown < 6) {
+      window.gtag("event", "view_adjustment", { type: "ChangeDisplayedYears" });
       if (yearsShown !== 3) {
         toast.success("Displayed Years + 1");
       } else {
@@ -45,16 +42,16 @@ export default function Home() {
       }
       setYearsShown(yearsShown + 1);
     } else {
-      window.gtag("event", "ChangeDisplayedYears_reachlimit", { value: "" });
-      track("ChangeDisplayedYears_reachlimit");
+      window.gtag("event", "view_adjustment", {
+        type: "ChangeDisplayedYears_reachlimit",
+      });
       toast.error("Maximum Display reached");
     }
   };
 
   const handleDecrement = () => {
-    window.gtag("event", "ChangeDisplayedYears", { value: "" });
-    track("ChangeDisplayedYears");
     if (yearsShown > 1) {
+      window.gtag("event", "view_adjustment", { type: "ChangeDisplayedYears" });
       if (yearsShown !== 4) {
         toast.success("Displayed Years - 1");
       } else {
@@ -65,33 +62,34 @@ export default function Home() {
       }
       setYearsShown(yearsShown - 1);
     } else {
-      window.gtag("event", "ChangeDisplayedYears_reachlimit", { value: "" });
-      track("ChangeDisplayedYears_reachlimit");
+      window.gtag("event", "view_adjustment", {
+        type: "ChangeDisplayedYears_reachlimit",
+      });
       toast.error("Minimum Display reached");
     }
   };
   const handleYearMinusOne = () => {
-    window.gtag("event", "ChangeYearRange", { value: "" });
-    track("ChangeYearRange");
     if (lastYearShown < 20) {
+      window.gtag("event", "view_adjustment", { type: "ChangeYearRange" });
       setLastYearShown(lastYearShown + 1);
       toast.success("Backward 1 year");
     } else {
-      window.gtag("event", "ChangeYearRange_reachlimit", { value: "" });
-      track("ChangeYearRange_reachlimit");
+      window.gtag("event", "view_adjustment", {
+        type: "ChangeYearRange_reachlimit",
+      });
       toast.error(" Minimum year reached!");
     }
   };
 
   const handleYearAddOne = () => {
-    window.gtag("event", "ChangeYearRange", { value: "" });
-    track("ChangeYearRange");
     if (lastYearShown > 1) {
+      window.gtag("event", "view_adjustment", { type: "ChangeYearRange" });
       setLastYearShown(lastYearShown - 1);
       toast.success("Forward 1 year");
     } else {
-      window.gtag("event", "ChangeYearRange_reachlimit", { value: "" });
-      track("ChangeYearRange_reachlimit");
+      window.gtag("event", "view_adjustment", {
+        type: "ChangeYearRange_reachlimit",
+      });
       toast.error("Maximum year reached!");
     }
   };
@@ -312,7 +310,7 @@ function format(dateObjects) {
     ?.filter((value) => value.date != null)
     .map((value, _) => {
       const dateObject = value.date;
-      const dateName = value.type;
+      const dateName = value.name;
       return ` ${dateName}="${dateObject.getFullYear()}-${(
         dateObject.getMonth() + 1
       )

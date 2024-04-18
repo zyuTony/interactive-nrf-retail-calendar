@@ -6,7 +6,6 @@ import {
   SecondHalfWeekIndicator,
   WeekIndicator,
 } from "./weekindicator";
-import { track } from "@vercel/analytics";
 
 export default function CalendarBlock({
   lastYearShown,
@@ -28,20 +27,7 @@ export default function CalendarBlock({
     2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026,
     2027,
   ];
-  const monthToNumber = {
-    JAN: 12,
-    FEB: 1,
-    MAR: 2,
-    APR: 3,
-    MAY: 4,
-    JUNE: 5,
-    JULY: 6,
-    AUG: 7,
-    SEPT: 8,
-    OCT: 9,
-    NOV: 10,
-    DEC: 11,
-  };
+
   const numberToMonth = {
     12: "JAN",
     1: "FEB",
@@ -66,10 +52,10 @@ export default function CalendarBlock({
     inputLists.offsetDays && hoverDate
       ? (() => {
           window.gtag("event", "offsetDuration", { value: "" });
-          track("offsetDuration");
           return [
             {
-              type: `start_${inputLists.daysValue}_days_duration`,
+              type: "offsetDays",
+              name: `start_${inputLists.daysValue}_days_duration`,
               date: new Date(
                 hoverDate.calYrNumBlockHead,
                 hoverDate.calMoNumBlockHead - 1,
@@ -80,7 +66,8 @@ export default function CalendarBlock({
               ).addDays(-inputLists.daysValue + 1),
             },
             {
-              type: `end_${inputLists.daysValue}_days_duration`,
+              type: "offsetDays",
+              name: `end_${inputLists.daysValue}_days_duration`,
               date: new Date(
                 hoverDate.calYrNumBlockHead,
                 hoverDate.calMoNumBlockHead - 1,
@@ -92,7 +79,7 @@ export default function CalendarBlock({
             },
           ];
         })()
-      : [{ type: null, date: null }];
+      : [{ type: "offsetDays", name: null, date: null }];
 
   const monthStartHighlights =
     inputLists.monthStart && hoverDate
@@ -107,25 +94,26 @@ export default function CalendarBlock({
 
           if (targetMonth) {
             window.gtag("event", "monthStartEnd", { value: "" });
-            track("monthStartEnd");
             return [
               {
-                type: `${targetMonth.fis_yr_nbr}_${
+                type: "monthStart",
+                name: `${targetMonth.fis_yr_nbr}_${
                   numberToMonth[targetMonth.fis_mo_nbr]
                 }_start_date`,
                 date: new Date(targetMonth.mo_strt_dt + " 08:00"),
               },
               {
-                type: `${targetMonth.fis_yr_nbr}_${
+                type: "monthStart",
+                name: `${targetMonth.fis_yr_nbr}_${
                   numberToMonth[targetMonth.fis_mo_nbr]
                 }_end_date`,
                 date: new Date(targetMonth.mo_end_dt + " 08:00"),
               },
             ];
           }
-          return [{ type: null, date: null }];
+          return [{ type: "monthStart", name: null, date: null }];
         })()
-      : [{ type: null, date: null }];
+      : [{ type: "monthStart", name: null, date: null }];
 
   const quarterStartHighlights =
     inputLists.quarterStart && hoverDate
@@ -140,27 +128,27 @@ export default function CalendarBlock({
 
           if (targetQuarter) {
             window.gtag("event", "quarterStartEnd", { value: "" });
-            track("quarterStartEnd");
             return [
               {
-                type: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_start_date`,
+                type: "quarterStart",
+                name: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_start_date`,
                 date: new Date(targetQuarter.qtr_strt_dt + " 08:00"),
               },
               {
-                type: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_end_date`,
+                type: "quarterStart",
+                name: `${targetQuarter.fis_yr_nbr}_Q${targetQuarter.fis_qtr_nbr}_end_date`,
                 date: new Date(targetQuarter.qtr_end_dt + " 08:00"),
               },
             ];
           }
-          return [{ type: null, date: null }];
+          return [{ type: "quarterStart", name: null, date: null }];
         })()
-      : [{ type: null, date: null }];
+      : [{ type: "quarterStart", name: null, date: null }];
 
   const YoYHighlights =
     inputLists.YoY && hoverDate
       ? (() => {
           window.gtag("event", "yoyCompDay", { value: "" });
-          track("yoyCompDay");
           const targetDay = (
             inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
           ).find(
@@ -180,12 +168,7 @@ export default function CalendarBlock({
               )
               .mo_strt_dt.split("-")
               .map((value, _) => parseInt(value, 10));
-            // console.log(
-            //   "targetdaydddsdsds",
-            //   targetCalYear,
-            //   targetCalMo,
-            //   targetCalDays
-            // );
+
             const previousYearDate = new Date(
               targetCalYear,
               targetCalMo - 1,
@@ -204,10 +187,10 @@ export default function CalendarBlock({
               typeLabel = `back_${index + 1}_years`;
             }
 
-            return { type: typeLabel, date: previousYearDate };
+            return { type: "yoyComp", name: typeLabel, date: previousYearDate };
           });
         })()
-      : [{ type: null, date: null }];
+      : [{ type: "yoyComp", name: null, date: null }];
 
   // console.log(YoYHighlights);
   const highlightDays = [
