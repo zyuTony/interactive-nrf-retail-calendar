@@ -51,7 +51,6 @@ export default function CalendarBlock({
   const offsetDaysHighlights =
     inputLists.offsetDays && hoverDate
       ? (() => {
-          window.gtag("event", "offsetDuration", { value: "" });
           return [
             {
               type: "offsetDays",
@@ -93,7 +92,6 @@ export default function CalendarBlock({
           );
 
           if (targetMonth) {
-            window.gtag("event", "monthStartEnd", { value: "" });
             return [
               {
                 type: "monthStart",
@@ -127,7 +125,6 @@ export default function CalendarBlock({
           );
 
           if (targetQuarter) {
-            window.gtag("event", "quarterStartEnd", { value: "" });
             return [
               {
                 type: "quarterStart",
@@ -148,7 +145,6 @@ export default function CalendarBlock({
   const YoYHighlights =
     inputLists.YoY && hoverDate
       ? (() => {
-          window.gtag("event", "yoyCompDay", { value: "" });
           const targetDay = (
             inputLists.realigned ? startDatebyMonth : startOrigDatebyMonth
           ).find(

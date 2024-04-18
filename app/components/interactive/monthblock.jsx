@@ -127,9 +127,6 @@ export function MonthBlock({
                   }
                   onMouseLeave={() => setHoverDate(null)}
                   onClick={() => {
-                    // window.gtag("event", "singleCellHighlighted", {
-                    //   value: "",
-                    // });
                     window.gtag("event", "date_calculations", {
                       type: "singleCell",
                     });
