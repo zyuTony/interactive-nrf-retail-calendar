@@ -6,6 +6,7 @@ import CalendarBlock from "./components/interactive/calendarblock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { track } from "@vercel/analytics";
+import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Home() {
   const [lastYearShown, setLastYearShown] = useState(3);
@@ -28,8 +29,11 @@ export default function Home() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
   const handleIncrement = () => {
+    sendGAEvent({ event: "ChangeDisplayedYears", value: "" });
     track("ChangeDisplayedYears");
+
     if (yearsShown < 6) {
       if (yearsShown !== 3) {
         toast.success("Displayed Years + 1");
@@ -41,12 +45,14 @@ export default function Home() {
       }
       setYearsShown(yearsShown + 1);
     } else {
+      sendGAEvent({ event: "ChangeDisplayedYears_reachlimit", value: "" });
       track("ChangeDisplayedYears_reachlimit");
       toast.error("Maximum Display reached");
     }
   };
 
   const handleDecrement = () => {
+    sendGAEvent({ event: "ChangeDisplayedYears", value: "" });
     track("ChangeDisplayedYears");
     if (yearsShown > 1) {
       if (yearsShown !== 4) {
@@ -59,27 +65,33 @@ export default function Home() {
       }
       setYearsShown(yearsShown - 1);
     } else {
+      sendGAEvent({ event: "ChangeDisplayedYears_reachlimit", value: "" });
       track("ChangeDisplayedYears_reachlimit");
       toast.error("Minimum Display reached");
     }
   };
   const handleYearMinusOne = () => {
+    sendGAEvent({ event: "ChangeYearRange", value: "" });
     track("ChangeYearRange");
     if (lastYearShown < 20) {
       setLastYearShown(lastYearShown + 1);
       toast.success("Backward 1 year");
     } else {
+      sendGAEvent({ event: "ChangeYearRange_reachlimit", value: "" });
       track("ChangeYearRange_reachlimit");
       toast.error(" Minimum year reached!");
     }
   };
 
   const handleYearAddOne = () => {
+    window.gtag("event", "ChangeYearRange", { value: "" });
+    sendGAEvent({ event: "ChangeYearRange", value: "" });
     track("ChangeYearRange");
     if (lastYearShown > 1) {
       setLastYearShown(lastYearShown - 1);
       toast.success("Forward 1 year");
     } else {
+      sendGAEvent({ event: "ChangeYearRange_reachlimit", value: "" });
       track("ChangeYearRange_reachlimit");
       toast.error("Maximum year reached!");
     }
