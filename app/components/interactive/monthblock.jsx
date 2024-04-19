@@ -127,8 +127,8 @@ export function MonthBlock({
                   }
                   onMouseLeave={() => setHoverDate(null)}
                   onClick={() => {
-                    window.gtag("event", "date_calculations", {
-                      type: "singleCell",
+                    window.gtag("event", "calculation_singleCell", {
+                      value: "",
                     });
                     if (highlightDays && highlightDays.length > 0) {
                       const uniqueTypes = new Set();
@@ -136,8 +136,8 @@ export function MonthBlock({
                         uniqueTypes.add(day.type);
                       });
                       uniqueTypes.forEach((type) => {
-                        window.gtag("event", "date_calculations", {
-                          type: type,
+                        window.gtag("event", `calculation_${type}`, {
+                          value: "",
                         });
                       });
                     }

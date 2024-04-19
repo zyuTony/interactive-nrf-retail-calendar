@@ -31,7 +31,7 @@ export default function Home() {
 
   const handleIncrement = () => {
     if (yearsShown < 6) {
-      window.gtag("event", "view_adjustment", { type: "ChangeDisplayedYears" });
+      window.gtag("event", "view_num_yrs_shown_change", { value: "" });
       if (yearsShown !== 3) {
         toast.success("Displayed Years + 1");
       } else {
@@ -42,16 +42,14 @@ export default function Home() {
       }
       setYearsShown(yearsShown + 1);
     } else {
-      window.gtag("event", "view_adjustment", {
-        type: "ChangeDisplayedYears_reachlimit",
-      });
+      window.gtag("event", "view_num_yrs_shown_limit", { value: "" });
       toast.error("Maximum Display reached");
     }
   };
 
   const handleDecrement = () => {
     if (yearsShown > 1) {
-      window.gtag("event", "view_adjustment", { type: "ChangeDisplayedYears" });
+      window.gtag("event", "view_num_yrs_shown_change", { value: "" });
       if (yearsShown !== 4) {
         toast.success("Displayed Years - 1");
       } else {
@@ -62,34 +60,28 @@ export default function Home() {
       }
       setYearsShown(yearsShown - 1);
     } else {
-      window.gtag("event", "view_adjustment", {
-        type: "ChangeDisplayedYears_reachlimit",
-      });
+      window.gtag("event", "view_num_yrs_shown_limit", { value: "" });
       toast.error("Minimum Display reached");
     }
   };
   const handleYearMinusOne = () => {
     if (lastYearShown < 20) {
-      window.gtag("event", "view_adjustment", { type: "ChangeYearRange" });
+      window.gtag("event", "view_anchor_yr_change", { value: "" });
       setLastYearShown(lastYearShown + 1);
       toast.success("Backward 1 year");
     } else {
-      window.gtag("event", "view_adjustment", {
-        type: "ChangeYearRange_reachlimit",
-      });
+      window.gtag("event", "view_anchor_yr_limit", { value: "" });
       toast.error(" Minimum year reached!");
     }
   };
 
   const handleYearAddOne = () => {
     if (lastYearShown > 1) {
-      window.gtag("event", "view_adjustment", { type: "ChangeYearRange" });
+      window.gtag("event", "view_anchor_yr_change", { value: "" });
       setLastYearShown(lastYearShown - 1);
       toast.success("Forward 1 year");
     } else {
-      window.gtag("event", "view_adjustment", {
-        type: "ChangeYearRange_reachlimit",
-      });
+      window.gtag("event", "view_anchor_yr_limit", { value: "" });
       toast.error("Maximum year reached!");
     }
   };
