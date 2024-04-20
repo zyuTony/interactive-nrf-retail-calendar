@@ -13,6 +13,7 @@ export default function CalendarBlock({
   inputLists,
   fixedHighlightsDays,
   setFixedHighlightsDays,
+  isSmallScreen,
 }) {
   Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
@@ -199,7 +200,7 @@ export default function CalendarBlock({
   // console.log(fixedHighlightsDays);
   return (
     <>
-      {yearsShown >= 4 ? (
+      {yearsShown >= 4 || isSmallScreen ? (
         <div className="flex flex-row justify-start">
           {displayedYearList.map((value, index) => (
             <div className="pl-4" key={index}>

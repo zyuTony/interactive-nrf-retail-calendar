@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 // import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-// Define your metadata more extensively
+
 export const metadata = {
   title: "Interactive Retail Calendar",
   description:
@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="flex flex-col">
         <NavMenu />
-        <main className="flex flex-col mt-20">{children}</main>
+        <main>{children}</main>
         {/* <Analytics /> */}
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>

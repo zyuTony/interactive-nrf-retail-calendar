@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import CalendarBlock from "./components/interactive/calendarblock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Home() {
   const [lastYearShown, setLastYearShown] = useState(3);
@@ -20,6 +19,32 @@ export default function Home() {
     quarterStart: false,
     realigned: true,
   });
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      if (width <= 640) {
+        setIsSmallScreen(true);
+        setYearsShown(2);
+      } else if (width > 640 && width <= 768) {
+        setIsSmallScreen(true);
+        setYearsShown(3);
+      } else if (width > 768 && width <= 1024) {
+        setIsSmallScreen(true);
+        setYearsShown(4);
+      } else if (width > 1024) {
+        setIsSmallScreen(false);
+        setYearsShown(3);
+      }
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -87,64 +112,19 @@ export default function Home() {
   };
 
   return (
-    <div className=" flex flex-row px-10 max-xl:flex-col max-xl:pl-20">
-      {/* LEFT SIDE - CALENDAR */}
-      <div className="flex flex-col max-xl:items-start items-center gap-0 pr-10 pb-10 max-xl:order-2 ">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex w-full justify-between">
-            <button
-              className="p-2 w-10 h-10 bg-gray-200 rounded-full shadow-lg hover:bg-gray-300"
-              onClick={handleYearMinusOne}
-              title="Go back One Year"
-            >
-              &#8592; {/*Left arrow symbol */}
-            </button>
-            <button
-              className="p-2 w-10 h-10 bg-gray-200 rounded-full shadow-lg hover:bg-gray-300"
-              onClick={handleYearAddOne}
-              title="Go Forward One Year"
-            >
-              &#8594; {/* Right arrow symbol */}
-            </button>
-          </div>
-        </div>
-        <div className="flex flex-row item-start px-16 max-xl:px-0">
-          <div className="flex flex-col py-8 pr-5 max-xl:hidden">
-            <button
-              className="items-center justify-center w-8 h-8 bg-black text-slate-100 rounded-none hover:bg-gray-500 hover:text-black"
-              onClick={handleIncrement}
-            >
-              &#43; {/* Plus symbol */}
-            </button>
-            <button
-              className="items-center justify-center w-8 h-8 bg-black text-slate-100 rounded-none hover:bg-gray-500 hover:text-black"
-              onClick={handleDecrement}
-            >
-              &#45; {/* Minus symbol */}
-            </button>
-          </div>
-          <div className="flex flex-row w-full pb-10 pl-4">
-            <CalendarBlock
-              lastYearShown={lastYearShown}
-              yearsShown={yearsShown}
-              inputLists={inputLists}
-              fixedHighlightsDays={fixedHighlightsDays}
-              setFixedHighlightsDays={setFixedHighlightsDays}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div className="flex flex-col min-w-max max-xl:order-1 max-xl:flex-row max-xl:justify-center max-xl:gap-x-20">
+    <div className=" flex flex-col h-screen w-screen pt-16 lg:flex-row lg:justify-center ">
+      {/* INPUT + OUTPUT */}
+      <div className="flex flex-row justify-center gap-x-10 pb-4 px-4 lg:order-2 lg:flex-col lg:justify-start lg:items-start lg:ml-10">
         {/* INPUTS SELECTIONS */}
-        <div className="flex flex-col space-y-4 p-4 max-xl:space-y-0 max-xl:p-0">
+        <div className="flex flex-col">
+          {/* Toggle + INFO icon */}
           <div className="flex items-center">
+            {/* Realign Toggle */}
             <label
               htmlFor="realignedToggle"
-              className="mr-2 text-sm font-medium"
+              className="text-sm font-medium pr-2"
             >
-              Realigned Calendar
+              Use Realigned
             </label>
             <div className="switch">
               <input
@@ -160,13 +140,14 @@ export default function Home() {
               />
               <label htmlFor="realignedToggle" className="slider round"></label>
             </div>
-            <div className="popup-container ml-2">
+            {/* popup info icon */}
+            <div className="popup-container px-2">
               <button className="info-button">
                 <FontAwesomeIcon icon={faInfoCircle} />
               </button>
-              <div className="popup-message text-sm font-medium">
-                For better comparability, NRF 4-5-4 Calendar restates 53-week
-                years (2012,2017,2023,etc.)
+              <div className="popup-message-mobile text-xs">
+                For better holiday comparability, NRF 4-5-4 Calendar restates
+                53-week years to 52 weeks. (2012,2017,2023,etc.)
                 <a
                   href="https://nrf.com/resources/4-5-4-calendar#:~:text=What%20is%20a%2053%2Dweek%20year%3F"
                   target="_blank"
@@ -178,8 +159,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <span className="text-xl font-medium">Calculation Dates</span>
+          {/* title + input selections */}
+          <span className="text-lg font-bold py-2">Calculation Dates</span>
           <div className="space-y-2">
             <CheckboxOption
               id="YoY"
@@ -200,34 +181,38 @@ export default function Home() {
               onChange={handleInputChange}
             />
 
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="offsetDays"
-                name="offsetDays"
-                checked={inputLists.offsetDays}
-                onChange={handleInputChange}
-                className="mr-2"
-              />
-              <label
-                htmlFor="offsetDays"
-                className={`text-sm font-medium ${
-                  inputLists.offsetDays ? "text-green-500" : ""
-                }`}
-              >
-                Get Start Date by Duration
-              </label>
+            <div className="flex flex-col items-start">
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  id="offsetDays"
+                  name="offsetDays"
+                  checked={inputLists.offsetDays}
+                  onChange={handleInputChange}
+                  className="mr-2"
+                />
+                <label
+                  htmlFor="offsetDays"
+                  className={`text-xs font-medium ${
+                    inputLists.offsetDays ? "text-green-500" : ""
+                  }`}
+                >
+                  Get Start Date by Duration
+                </label>
+              </div>
+
+              {/* Row for Days Input and Labels, only displayed if offsetDays is true */}
               {inputLists.offsetDays && (
-                <div className="flex items-center ml-2">
+                <div className="flex items-center mt-2">
                   <input
                     type="number"
                     name="daysValue"
                     onChange={handleInputChange}
                     placeholder="7"
-                    className="text-sm font-medium w-12 h-5 p-1 mr-2 border rounded"
+                    className="text-xs font-medium w-12 h-5 p-1 mr-2 border rounded"
                   />
                   <span
-                    className={`text-sm font-medium ${
+                    className={`text-xs font-medium ${
                       inputLists.offsetDays ? "text-green-500" : ""
                     }`}
                   >
@@ -240,6 +225,21 @@ export default function Home() {
                   >
                     (inclusive)
                   </span>
+                  <div className="popup-container-duration px-1">
+                    <button className="info-button">
+                      <FontAwesomeIcon icon={faInfoCircle} />
+                    </button>
+                    <div className="popup-message-duration text-xs">
+                      Example:
+                      <br />
+                      1 week &rarr; 7
+                      <br />
+                      3 weeks &rarr; 21
+                      <br />
+                      1 quarter &rarr; 91
+                      <br />1 year &rarr; 364
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -247,8 +247,60 @@ export default function Home() {
         </div>
 
         {/* OUTPUT */}
-        <div className="flex justify-center">
-          <AutoSizeTextDisplay text={format(fixedHighlightsDays)} />
+        <div className="flex pt-10 lg:pt-5">
+          <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[10vw]">
+            <span className="whitespace-pre-wrap break-words">
+              {format(fixedHighlightsDays)}
+            </span>
+          </div>
+        </div>
+      </div>
+      {/* CALENDAR BLOCKS */}
+      <div className="flex-col overflow-auto items-center pb-4 px-0">
+        {/* FORWARD BACKWARD BUTTON */}
+        <div className="flex justify-between px-2">
+          <button
+            className="p-2 w-10 h-10 bg-gray-200 shadow-sm rounded-full hover:bg-black hover:text-white"
+            onClick={handleYearMinusOne}
+            title="Go back One Year"
+          >
+            &#8592; {/*Left arrow symbol */}
+          </button>
+          {/* + - BUTTONS */}
+          <div className="flex flex-row space-x-1 hidden lg:block">
+            <button
+              className="w-10 h-8 bg-gray-200 shadow-sm text-black font-bold rounded-none hover:bg-black hover:text-white"
+              onClick={handleDecrement}
+              title="Display years - 1"
+            >
+              &#45; {/* Minus symbol */}
+            </button>
+            <button
+              className="w-10 h-8 bg-gray-200 shadow-sm text-black font-bold rounded-none hover:bg-black hover:text-white"
+              onClick={handleIncrement}
+              title="Display years + 1"
+            >
+              &#43; {/* Plus symbol */}
+            </button>
+          </div>
+          <button
+            className="p-2 w-10 h-10 bg-gray-200 shadow-sm rounded-full hover:bg-black hover:text-white"
+            onClick={handleYearAddOne}
+            title="Go Forward One Year"
+          >
+            &#8594; {/* Right arrow symbol */}
+          </button>
+        </div>
+        {/* CALENDAR*/}
+        <div className="flex justify-center overflow-auto lg:justify-start">
+          <CalendarBlock
+            lastYearShown={lastYearShown}
+            yearsShown={yearsShown}
+            inputLists={inputLists}
+            fixedHighlightsDays={fixedHighlightsDays}
+            setFixedHighlightsDays={setFixedHighlightsDays}
+            isSmallScreen={isSmallScreen}
+          />
         </div>
       </div>
     </div>
@@ -268,31 +320,10 @@ function CheckboxOption({ id, label, checked, onChange }) {
       />
       <label
         htmlFor={id}
-        className={`text-sm font-medium ${checked ? "text-green-500" : ""}`}
+        className={`text-xs font-medium ${checked ? "text-green-500" : ""}`}
       >
         {label}
       </label>
-    </div>
-  );
-}
-
-function AutoSizeTextDisplay({ text }) {
-  return (
-    <div
-      className="border border-gray-100 rounded-lg font-mono p-2 overflow-auto"
-      style={{
-        fontFamily: "monospace",
-        fontSize: "16px",
-        textAlign: "right",
-        maxHeight: "100vh",
-        maxWidth: "100vw",
-        minWidth: "10vw",
-        minHeight: "10vh",
-      }}
-    >
-      <span style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}>
-        {text}
-      </span>
     </div>
   );
 }

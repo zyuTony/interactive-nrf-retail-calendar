@@ -53,7 +53,7 @@ export function YearBlock({
 
       {Array.from({ length: 12 }).map((value, index) => {
         return (
-          <div key={value}>
+          <div key={index}>
             <MonthBlock
               fisYrColNum={fisYrColNum}
               realigned={realigned}

@@ -29,8 +29,9 @@
     "app/stash/dayinfo/page.jsx",
     "app/stash/compday/page.jsx",
     "app/stash/interactive/page.jsx",
-    "app/page.jsx",
-    "app/layout.jsx"
+    "app/test/page.jsx",
+    "app/layout.jsx",
+    "app/navmenu.tsx"
   ],
   "exclude": ["node_modules"]
 }

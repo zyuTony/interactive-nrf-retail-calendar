@@ -25,35 +25,39 @@ export default function NavMenu() {
   ];
   return (
     <nav className="w-full bg-white bg-opacity-95 shadow-md fixed top-0 left-0 z-50">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center py-3">
+      <div className="flex px-4 py-2 justify-start items-center">
+        {/* home button */}
+        <div className="flex">
           <Link
             href="/"
-            className="text-blue-600 hover:text-blue-900 text-lg font-semibold"
+            className="text-blue-600 hover:text-blue-900 text-lg font-bold"
           >
-            454 Calendar
+            454 Retail Calendar
           </Link>
+        </div>
 
-          <div className="relative group ml-8">
-            <span className="text-gray-600 hover:text-gray-900 text-sm font-medium cursor-pointer text-center pl-5">
-              PDF Calendars
-            </span>
-            <div className="absolute left-0 bg-white shadow-lg hidden group-hover:block w-32 rounded-md border border-gray-200">
-              <ul className="py-1">
-                {pastCalendars.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-900 block px-2 py-2 text-sm rounded-md hover:bg-gray-50 w-full text-center"
-                    >
-                      {link.year}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* nav menu items */}
+        <div className="relative group pl-10">
+          {/* pdf calendar */}
+          <span className="text-gray-600 hover:text-black text-sm font-medium cursor-pointer text-center pl-5">
+            PDF Calendars
+          </span>
+          {/* drop down menus */}
+          <div className="absolute bg-white shadow-sm top-7 hidden group-hover:block w-32 rounded-md border border-gray-200">
+            <ul>
+              {pastCalendars.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block rounded-md px-2 py-2 text-center text-gray-600 hover:text-black text-sm hover:bg-gray-50"
+                  >
+                    {link.year}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
