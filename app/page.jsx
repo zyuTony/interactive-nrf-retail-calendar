@@ -124,7 +124,7 @@ export default function Home() {
               htmlFor="realignedToggle"
               className="text-sm font-medium pr-1"
             >
-              Realigned
+              Realigned Dates
             </label>
             <div className="switch">
               <input
@@ -248,7 +248,7 @@ export default function Home() {
 
         {/* OUTPUT */}
         <div className="flex lg:pt-5">
-          <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[15vw]">
+          <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[12vw]">
             <span className="whitespace-pre-wrap break-words">
               {format(fixedHighlightsDays)}
             </span>
@@ -271,7 +271,7 @@ export default function Home() {
         </div>
       </div>
       {/* CALENDAR BLOCKS */}
-      <div className="flex-col overflow-auto items-center pb-4 px-0">
+      <div className="flex-col overflow-auto lg:items-center pb-4 pr-4">
         {/* FORWARD BACKWARD BUTTON */}
         <div className="flex justify-between px-2">
           <button
@@ -307,7 +307,7 @@ export default function Home() {
           </button>
         </div>
         {/* CALENDAR*/}
-        <div className="flex justify-center overflow-auto lg:justify-start">
+        <div className="flex justify-center lg:justify-start">
           <CalendarBlock
             lastYearShown={lastYearShown}
             yearsShown={yearsShown}

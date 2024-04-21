@@ -68,8 +68,8 @@ input:checked + .slider:before {
   /* Position adjustments */
   position: absolute;
   z-index: 1;
-  top: 110%;
-  left: 120%; /* May need adjustment */
+  top: 160%;
+  left: 80%; /* May need adjustment */
   transform: translateY(-40%);
 }
 
