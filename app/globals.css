@@ -1,12 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* TOGGLE */
 .switch {
   position: relative;
   display: inline-flex;
   align-items: center; /* Ensure vertical centering of the label and switch */
-  width: 40px; /* Smaller width */
-  height: 24px; /* Smaller height */
+  width: 30px; /* Smaller width */
+  height: 16px; /* Smaller height */
 }
 
 .switch input {
@@ -29,30 +31,31 @@
 .slider:before {
   position: absolute;
   content: "";
-  height: 18px; /* Smaller slider button */
-  width: 18px; /* Smaller slider button */
-  left: 3px;
-  bottom: 3px;
+  height: 14px; /* Smaller slider button */
+  width: 14px; /* Smaller slider button */
+  left: 2px;
+  bottom: 1px;
   background-color: white;
   transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #5bc236;
 }
 
 input:checked + .slider:before {
-  transform: translateX(16px); /* Adjust for smaller slider */
+  transform: translateX(12px); /* Adjust for smaller slider */
 }
 
 .slider.round {
-  border-radius: 24px;
+  border-radius: 16px;
 }
 
 .slider.round:before {
   border-radius: 50%;
 }
 
+/* pop up */
 .popup-message-duration {
   visibility: hidden;
   width: 100px;

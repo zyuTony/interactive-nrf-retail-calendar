@@ -31,7 +31,7 @@
     "app/stash/interactive/page.jsx",
     "app/test/page.jsx",
     "app/layout.jsx",
-    "app/navmenu.tsx"
+    "app/navmenu.jsx"
   ],
   "exclude": ["node_modules"]
 }

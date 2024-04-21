@@ -248,11 +248,26 @@ export default function Home() {
 
         {/* OUTPUT */}
         <div className="flex pt-10 lg:pt-5">
-          <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[10vw]">
+          <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[15vw]">
             <span className="whitespace-pre-wrap break-words">
               {format(fixedHighlightsDays)}
             </span>
           </div>
+        </div>
+        <div className="flex flex-col text-gray-800 text-sm font-light max-w-[400px] lg:text-base lg:pt-5">
+          <h1 className="font-bold">What is 454 Retail Calendar?</h1>
+          <p className="mb-2">
+            454 calendar is a guide for retailers that ensures sales
+            comparability between years. 454 calendar divides the year into
+            months based on a 4 weeks, 5 weeks, 4 weeks format.
+          </p>
+          <p>
+            454 calendar calculator follows the exact format from National
+            Retail Federation (NRF retail calendar).The default provides a 3
+            year calendar view (retail calendar 2022 - retail calendar 2024),
+            but you can adjust how many years to show and which year to show as
+            you'd like.
+          </p>
         </div>
       </div>
       {/* CALENDAR BLOCKS */}
