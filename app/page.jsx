@@ -122,9 +122,9 @@ export default function Home() {
             {/* Realign Toggle */}
             <label
               htmlFor="realignedToggle"
-              className="text-sm font-medium pr-2"
+              className="text-sm font-medium pr-1"
             >
-              Use Realigned
+              Realigned
             </label>
             <div className="switch">
               <input
@@ -145,7 +145,7 @@ export default function Home() {
               <button className="info-button">
                 <FontAwesomeIcon icon={faInfoCircle} />
               </button>
-              <div className="popup-message-mobile text-xs">
+              <div className="popup-message text-xs">
                 For better holiday comparability, NRF 4-5-4 Calendar restates
                 53-week years to 52 weeks. (2012,2017,2023,etc.)
                 <a
@@ -247,14 +247,14 @@ export default function Home() {
         </div>
 
         {/* OUTPUT */}
-        <div className="flex pt-10 lg:pt-5">
+        <div className="flex lg:pt-5">
           <div className="border border-gray-400 rounded-lg font-mono py-2 px-1 w-full min-w-[30vw] min-h-[10vh] max-h-screen text-right align-text-bottom text-xs sm:text-sm md:text-base lg:min-w-[15vw]">
             <span className="whitespace-pre-wrap break-words">
               {format(fixedHighlightsDays)}
             </span>
           </div>
         </div>
-        <div className="flex flex-col text-gray-800 text-sm font-light max-w-[400px] lg:text-base lg:pt-5">
+        <div className="flex flex-col text-gray-800 text-xs max-w-[280px] font-light hidden lg:block lg:max-w-[400px] lg:text-base lg:pt-5">
           <h1 className="font-bold">What is 454 Retail Calendar?</h1>
           <p className="mb-2">
             454 calendar is a guide for retailers that ensures sales
@@ -266,7 +266,7 @@ export default function Home() {
             Retail Federation (NRF retail calendar).The default provides a 3
             year calendar view (retail calendar 2022 - retail calendar 2024),
             but you can adjust how many years to show and which year to show as
-            you'd like.
+            you would like.
           </p>
         </div>
       </div>

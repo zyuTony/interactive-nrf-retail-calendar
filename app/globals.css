@@ -55,7 +55,24 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* pop up */
+/* POPUP MESSAGE */
+.popup-message {
+  visibility: hidden;
+  width: 200px;
+  height: 90px;
+  background-color: rgb(226, 226, 226);
+  color: #000000;
+  border-radius: 8px;
+  padding: 10px 10px; /* 10px top and bottom, 20px left and right */
+
+  /* Position adjustments */
+  position: absolute;
+  z-index: 1;
+  top: 110%;
+  left: 120%; /* May need adjustment */
+  transform: translateY(-40%);
+}
+
 .popup-message-duration {
   visibility: hidden;
   width: 100px;
@@ -73,24 +90,7 @@ input:checked + .slider:before {
   transform: translateY(-40%);
 }
 
-.popup-message-mobile {
-  visibility: hidden;
-  width: 200px;
-  height: 90px;
-  background-color: rgb(226, 226, 226);
-  color: #000000;
-  border-radius: 8px;
-  padding: 10px 10px; /* 10px top and bottom, 20px left and right */
-
-  /* Position adjustments */
-  position: absolute;
-  z-index: 1;
-  top: 110%;
-  left: 120%; /* May need adjustment */
-  transform: translateY(-40%);
-}
-
-/* Style for the popup container */
+/* POPUP WINDOW HOVER */
 .popup-container {
   position: relative;
   display: inline-block;
@@ -100,7 +100,7 @@ input:checked + .slider:before {
   position: relative;
   display: inline-block;
 }
-/* Show the popup message when hovering over the popup container */
+
 .popup-container:hover .popup-message {
   visibility: visible;
 }
