@@ -269,12 +269,12 @@ export default function Home() {
             many years to show and which year to show as you would like.
           </p>
           <h2 className="font-bold mb-2">Connect With Me</h2>
-          <div className="flex flex-col space-y-1">
+          <div className="flex flex-col space-y-0.5">
             <a
               href="https://github.com/zyuTony"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 py-0.5 w-fit"
             >
               GitHub
             </a>
@@ -282,15 +282,23 @@ export default function Home() {
               href="https://www.linkedin.com/in/z-yu/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 py-0.5 w-fit"
             >
               LinkedIn
+            </a>
+            <a
+              href="https://medium.com/@zongyuan1998"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 py-0.5 w-fit"
+            >
+              Medium
             </a>
             <a
               href="https://self-intro-git-main-zyutonys-projects.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 py-0.5 w-fit"
             >
               Personal Website
             </a>
