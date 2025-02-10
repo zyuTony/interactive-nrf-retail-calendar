@@ -58,12 +58,14 @@ input:checked + .slider:before {
 /* POPUP MESSAGE */
 .popup-message {
   visibility: hidden;
-  width: 200px;
-  height: 90px;
-  background-color: rgb(226, 226, 226);
-  color: #000000;
+  width: 300px;
+  height: 70px;
+  background-color: #ffffff;
+  color: #333333;
   border-radius: 8px;
   padding: 10px 10px; /* 10px top and bottom, 20px left and right */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 
   /* Position adjustments */
   position: absolute;

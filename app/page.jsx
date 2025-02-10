@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
-  const [lastYearShown, setLastYearShown] = useState(3);
+  const [lastYearShown, setLastYearShown] = useState(2);
   const [yearsShown, setYearsShown] = useState(3);
   const [fixedHighlightsDays, setFixedHighlightsDays] = useState([]);
 
@@ -261,13 +261,40 @@ export default function Home() {
             comparability between years. 454 calendar divides the year into
             months based on a 4 weeks, 5 weeks, 4 weeks format.
           </p>
-          <p>
+          <p className="mb-4">
             454 calendar calculator follows the exact format from National
-            Retail Federation (NRF retail calendar).The default provides a 3
-            year calendar view (retail calendar 2022 - retail calendar 2024),
-            but you can adjust how many years to show and which year to show as
-            you would like.
+            Retail Federation (NRF retail calendar). The default provides a 3
+            year calendar view (retail calendar {new Date().getFullYear() - 2} -
+            retail calendar {new Date().getFullYear()}), but you can adjust how
+            many years to show and which year to show as you would like.
           </p>
+          <h2 className="font-bold mb-2">Connect With Me</h2>
+          <div className="flex flex-col space-y-1">
+            <a
+              href="https://github.com/zyuTony"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/z-yu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://self-intro-git-main-zyutonys-projects.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              Personal Website
+            </a>
+          </div>
         </div>
       </div>
       {/* CALENDAR BLOCKS */}
